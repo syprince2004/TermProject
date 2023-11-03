@@ -16,16 +16,33 @@
 
 #include <time.h> //time() 함수를 쓰기 위한 헤더파일
 
-int Rand_Input(int UD); //Rand_Input 함수 선언
-int UD_Button(int button); //UD_Button 함수 선언
+int Rand_Now(int currentFloor);
+
+void UD_Button(int UDbutton);
+
+int El_Floor(int EarlyFloor, int LaterFloor);
 
 int main()
 {
+	int targetFloor = 0;
+
+	int initialFloor = 11; //처음 시작할때 층은 무조건 1층
+
 	while(1)
 	{
 		int button = 0;
 		printf("가고싶은 방향을 선택하시오 위(1), 아래(2) > ");
-		scanf("%d", &button); //가고싶은 방향 직접 입력
+		scanf_s("%d", &button); //가고싶은 방향 직접 입력
 		UD_Button(button); //UD_Button 함수 호출
+
+		int currentFloor = Rand_Now(button);
+
+		currentFloor = El_Floor(initialFloor, currentFloor);
+
+		printf("가고자하는 층을 입력하시오 > ");
+		scanf_s("%d", &targetFloor);
+		targetFloor += 10;
+
+		initialFloor = El_Floor(currentFloor, targetFloor);
 	}
 }
