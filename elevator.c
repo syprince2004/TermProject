@@ -6,12 +6,17 @@
 개발 히스토리 :
 	2023.10.02 - main 함수에서 입력에 따른 if문 생성, 현재층과 목표층 입력
 	2023.10.07 - main 함수에서 쓰레드 호출, 쓰레드 생성
-	2023.10.11 - 버블정렬 함수를 이용해 전역변수인 currentFloor, targetFloor 배열을 오름차순정렬
-	2023.10.13 - 버블정렬한 currentFloor, targetFloor 배열을 새로운 배열에 저장
-	2023.10.20 - 최대값과 최솟값을 구하는 함수
-	2023.10.23 - 닫힘여부 함수
-	2023.10.26 - 창을 지우는 코드와 원하는 xy좌표에 출력할 수 있는 함수
-	2023.10.30 - 사용자 임의 입력(3)을 눌렀을때 랜덤으로 정해지고 움직이는 코드
+	2023.10.21 - 버블정렬 함수를 이용해 전역변수인 currentFloor, targetFloor 배열을 오름차순정렬
+	2023.10.24 - 버블정렬한 currentFloor, targetFloor 배열을 새로운 배열에 저장
+	2023.10.29 - 최대값과 최솟값을 구하는 함수
+	2023.10.30 - 닫힘여부 함수
+	2023.11.03 - 창을 지우는 코드와 원하는 xy좌표에 출력할 수 있는 함수
+	2023.11.05 - 사용자 임의 입력(3)을 눌렀을때 랜덤으로 정해지고 움직이는 코드
+	2023.11.06 - 초기층에서 현재층으로 가고 현재층에서 목표층으로 가는 함수
+	2023.11.08 - 구조체 선언
+	2023.11.09 - 프로세스 생성하는 함수
+	2023.11.10 - 프로세스 생성하는 함수 주석처리(경로가 맞지않음)
+	2023.11.13 - 엘리베이터층이 현재층, 목표층이랑 같다면 멈춤
 오픈소스 :
 라이브러리 :
 */
@@ -26,6 +31,7 @@
 #include <process.h>
 //#include <cstdio>
 #include <conio.h>
+#include <tchar.h>
 
 
 #define SWAP(x,y,t) ( (t)=(x) , (x) = (y) , (y) =(t) ) // 두개의 자리를 바꿔줌
@@ -52,8 +58,20 @@ int Cl_Button(int Close);
 
 void Gotxy(int x, int y);
 
+int El_Floor(int EarlyFloor, int LaterFloor);
+
+//void CreateElevatorProcess();
+
 //void MoveElevator();
 
+
+/*
+엘리베이터에 필요한 구조체
+구조체 목적 : 각각 4개의 배열이 하나의 구조체 배열에 들어감 사람하나당 구조체 배열에 추가
+return 값 :
+개발 히스토리 :
+	2023.11.08 - 전역변수로 썼던 변수 4개를 구조체로 바꿈
+*/
 struct Elevator
 {
 	int currentFloor[100];
@@ -71,8 +89,9 @@ return 값 :
 개발 히스토리 :
 	2023.10.02 - 입력에 따른 if문 생성, 사용자 현재층(currentFloor) 랜덤으로 입력받기, 가고자하는 층(targetFloor) 입력받기
 	2023.10.07 - 쓰레드 호출
-	2023.10.26 - 창을 지우는 코드 작성
-	2023.10.30 - 임의 입력(3)을 눌렀을때 랜덤으로 작동되는 코드
+	2023.11.03 - 창을 지우는 코드 작성
+	2023.11.05 - 임의 입력(3)을 눌렀을때 랜덤으로 작동되는 코드
+	2023.11.06 - 엘리베이터 움직이는 함수 호출
 */
 int main()
 {
@@ -91,15 +110,46 @@ int main()
 		printf("위(1), 아래(2), 임의사용자(3)");
 		scanf("%d", &a); //숫자로 입력
 		//printf("%d", button);
-		if (a == 1 || a == 2) { // 1 or 2를 입력했을때
+		if (a == 1) { // 1 or 2를 입력했을때
+			elevator[i].button[i] = a;
+			currentf = rand() % 100 + 1; // 현재층을 1~100층중 랜덤으로 결정
+			elevator[i].currentFloor[i] = currentf; // 전역변수로 선언된currentFloor에 대입
+			while(1){
+				printf("가고자하는 층을 입력");
+				scanf("%d", &targetf); // 목표층을 입력받음
+				if(targetf > currentf){
+					elevator[i].targetFloor[i] = targetf; // 전역변수로 선언된 targetFloor에 대입
+					/*printf("%d %d\n", currentFloor[i], targetFloor[i]);*/
+					i++;
+					break;
+				}
+				else {
+					printf("목표층이 현재층보다 낮습니다\n다시 입력받으세요\n");
+					/*system("cls");*/
+					continue;
+				}
+			}
+		}
+		else if (a == 2) { // 1 or 2를 입력했을때
 			elevator[i].button[i] = a;
 			currentf = rand() % 100 + 1; // 현재층을 1~100층중 랜덤으로 결정
 			elevator[i].currentFloor[i] = currentf; // 전역변수로 선언된currentFloor에 대입
 			printf("가고자하는 층을 입력");
-			scanf("%d", &targetf); // 목표층을 입력받음
-			elevator[i].targetFloor[i] = targetf; // 전역변수로 선언된 targetFloor에 대입
-			/*printf("%d %d\n", currentFloor[i], targetFloor[i]);*/
-			i++;
+			while (1) {
+				printf("가고자하는 층을 입력");
+				scanf("%d", &targetf); // 목표층을 입력받음
+				if (targetf < currentf) {
+					elevator[i].targetFloor[i] = targetf; // 전역변수로 선언된 targetFloor에 대입
+					/*printf("%d %d\n", currentFloor[i], targetFloor[i]);*/
+					i++;
+					break;
+				}
+				else {
+					printf("목표층이 현재층보다 높습니다\n다시 입력받으세요\n");
+					/*system("cls");*/
+					continue;
+				}
+			}
 		}
 		else if (a == 3) {
 			srand(time(NULL));
@@ -115,10 +165,11 @@ int main()
 			elevator[i].targetFloor[i] = targetf;
 			i++;
 		}
-		else
+		else{
 			printf("다시 입력하세요\n");
-		continue;
-
+			continue;
+		}
+		/*CreateElevatorProcess();*/
 	}
 }
 
@@ -149,10 +200,11 @@ int main()
 함수 목적 : 메인에서 입력받고 전역변수의 배열에 넣으면 엘리베이터 위치와 비교
 개발 히스토리 :
 	2023.10.07 - 쓰레드 생성
-	2023.10.11 - 전역변수인 currentFloor, targetFloor 배열을 버블정렬
-	2023.10.13 - 버블정렬한 currentFloor, targetFloor 배열을 새로운 배열에 저장
-	2023.10.20 - 최대최소값을 찾는 함수 선언
-	2023.10.23 - 닫힘버튼 함수 호출
+	2023.10.21 - 전역변수인 currentFloor, targetFloor 배열을 버블정렬
+	2023.10.24 - 버블정렬한 currentFloor, targetFloor 배열을 새로운 배열에 저장
+	2023.10.29 - 최대최소값을 찾는 함수 선언
+	2023.11.05 - 닫힘버튼 함수 호출
+	2023.11.13 - 엘리베이터와 현재층, 목표층이 같다면 멈춤
 */
 unsigned _stdcall thread_el1(void* arg)
 {
@@ -175,11 +227,19 @@ unsigned _stdcall thread_el1(void* arg)
 		/*printf("%d %d", el1_targetMin, el1_targetMax);*/
 
 		if (elevator[i].currentFloor[i] != 0 && elevator[i].targetFloor[i] != 0) {
-			int current = elevator[i].currentFloor[i];
-			int target = elevator[i].targetFloor[i];
 			/*elevator[i].currentFloor[i] = El_Floor(current, target)*/;
-			if (elevator[i].currentFloor[i] == target) {
-				printf("엘리베이터가 %d에 도착했습니다.\n", target);
+			if (elevator1 == elevator[i].currentFloor[i]) {
+				printf("엘리베이터가 현재 사용자가 있는 %d에 도착했습니다.\n", elevator[i].currentFloor[i]);
+
+				// 엘리베이터 멈춤
+				Sleep(3000); // 3초 동안 멈춤
+
+				// 엘리베이터 출발 전 초기화
+				//elevator[i].currentFloor[i] = 0;
+				//elevator[i].targetFloor[i] = 0;
+			}
+			if (elevator1 == elevator[i].targetFloor[i]) {
+				printf("엘리베이터가 목표층인 %d에 도착했습니다.\n", elevator[i].targetFloor[i]);
 
 				// 엘리베이터 멈춤
 				Sleep(3000); // 3초 동안 멈춤
@@ -233,7 +293,7 @@ unsigned _stdcall thread_el1(void* arg)
 버블정렬
 함수 목적 : 오름차순으로 정렬해줌
 개발 히스토리 :
-	2023.10.11 - 버블정렬을 통해 오름차순 정렬
+	2023.10.24 - 버블정렬을 통해 오름차순 정렬
 */
 void BubbleSort(int list[], int n) {
 	int i, j, temp;
@@ -250,7 +310,7 @@ void BubbleSort(int list[], int n) {
 최대최소값
 함수 목적 : 최대값과 최소값을 구함
 개발 히스토리 :
-	2023.10.20 - min, max 값을 구함
+	2023.10.29 - min, max 값을 구함
 */
 void MinMax(int list[], int* min, int* max, int size) { //
 	//while(1){
@@ -283,7 +343,7 @@ void MinMax(int list[], int* min, int* max, int size) { //
 함수 목적 : 닫힘버튼을 누르면 1초이후 닫히고 안누르면 3초후에 닫힘
 return 값 : 램덤한값으로 받은 현재 사용자 위치
 개발 히스토리 :
-	2023.10.23 - Sleep 함수를 이용해 닫힘버튼을 누르면 1초뒤 문이닫힘니다 출력 아니라면 3초뒤 출력
+	2023.10.30 - Sleep 함수를 이용해 닫힘버튼을 누르면 1초뒤 문이닫힘니다 출력 아니라면 3초뒤 출력
 */
 int Cl_Button(int Close)
 {
@@ -301,7 +361,7 @@ cmd환경에서 위치 지정해주는 함수
 함수 목적 : 함수를 선언하면 x,y의 좌표값에 표현
 return 값 :
 개발 히스토리 :
-	2023.10.26 - 좌표지정해 좌표위치에 출력
+	2023.11.03 - 좌표지정해 좌표위치에 출력
 */
 void Gotxy(int x, int y)
 {
@@ -317,7 +377,7 @@ void Gotxy(int x, int y)
 함수 목적 : 초기값을 끝날때마다 바꿔 시작 지점을 바꾼다
 return 값 : 바뀐 초기값
 개발 히스토리 :
-	(2023-11-09) - 초기층에서 현재층으로 가고 현재층에서 목표층으로 가는 함수 구현(엘리베이터 한층당 속도는 Sleep함수를 사용해 0.5초)
+	2023.11.06 - 초기층에서 현재층으로 가고 현재층에서 목표층으로 가는 함수 구현(엘리베이터 한층당 속도는 Sleep함수를 사용해 0.5초)
 */
 int El_Floor(int EarlyFloor, int LaterFloor) {
 	double timePerFloor = 0.5; // 한 층 이동에 걸리는 시간 (초)
@@ -347,3 +407,52 @@ int El_Floor(int EarlyFloor, int LaterFloor) {
 	}
 	return EarlyFloor;
 }
+
+/*
+프로세스 함수 생성
+함수 목적 : 엘리베이터가 움직이는 모습이 프로세스에서만 움직이게
+개발 히스토리 :
+	2023.11.09 - 프로세스를 생성
+	2023.11.10 - 주석처리
+*/
+//void CreateElevatorProcess()
+//{
+//	STARTUPINFO si;
+//	PROCESS_INFORMATION pi;
+//
+//	ZeroMemory(&si, sizeof(si));
+//	si.cb = sizeof(si);
+//	ZeroMemory(&pi, sizeof(pi));
+//
+//	// 프로세스 생성
+//	if (!CreateProcess(
+//		_T("D:\\program\\finall\\TremProject\\process1.exe"), // 실행 파일 경로
+//		NULL,                            // 커맨드 라인
+//		NULL,                            // 보안 속성
+//		NULL,                            // 보안 속성
+//		FALSE,                           // 상속 여부
+//		0,                               // 플래그
+//		NULL,                            // 환경 변수
+//		NULL,                            // 현재 디렉토리
+//		&si,                             // 시작 정보 구조체
+//		&pi))                            // 프로세스 정보 구조체
+//	{
+//		printf("프로세스 생성에 실패했습니다. 오류 코드: %lu\n", GetLastError());
+//		LPVOID errorMessage;
+//		FormatMessage(
+//			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+//			NULL,
+//			GetLastError(),
+//			0, // Default language
+//			(LPWSTR)&errorMessage,
+//			0,
+//			NULL
+//		);
+//		wprintf(L"에러 메시지: %s\n", errorMessage);
+//		LocalFree(errorMessage);
+//	}
+//
+//	// 프로세스 및 스레드 핸들 닫기
+//	CloseHandle(pi.hProcess);
+//	CloseHandle(pi.hThread);
+//}
