@@ -1,24 +1,26 @@
-/*
-¿¤¸®º£ÀÌÅÍ °ü¸® ÇÁ·Î±×·¥
-°³¹ß È¯°æ : VS2022, C¾ð¾î, Windows
-°³¹ß ¸ñÀû : ¿¤¸®º£ÀÌÅÍ °ü¸® ÇÁ·Î±×·¥ÀÇ °³¹ßÀ» ÅëÇÑ ÇÁ·Î±×·¡¹Ö ´É·Â Çâ»ó
-°³¹ß °á°ú :
-°³¹ß È÷½ºÅä¸® :
-	2023.10.02 - main ÇÔ¼ö¿¡¼­ ÀÔ·Â¿¡ µû¸¥ if¹® »ý¼º, ÇöÀçÃþ°ú ¸ñÇ¥Ãþ ÀÔ·Â
-	2023.10.07 - main ÇÔ¼ö¿¡¼­ ¾²·¹µå È£Ãâ, ¾²·¹µå »ý¼º
-	2023.10.21 - ¹öºíÁ¤·Ä ÇÔ¼ö¸¦ ÀÌ¿ëÇØ Àü¿ªº¯¼öÀÎ currentFloor, targetFloor ¹è¿­À» ¿À¸§Â÷¼øÁ¤·Ä
-	2023.10.24 - ¹öºíÁ¤·ÄÇÑ currentFloor, targetFloor ¹è¿­À» »õ·Î¿î ¹è¿­¿¡ ÀúÀå
-	2023.10.29 - ÃÖ´ë°ª°ú ÃÖ¼Ú°ªÀ» ±¸ÇÏ´Â ÇÔ¼ö
-	2023.10.30 - ´ÝÈû¿©ºÎ ÇÔ¼ö
-	2023.11.03 - Ã¢À» Áö¿ì´Â ÄÚµå¿Í ¿øÇÏ´Â xyÁÂÇ¥¿¡ Ãâ·ÂÇÒ ¼ö ÀÖ´Â ÇÔ¼ö
-	2023.11.05 - »ç¿ëÀÚ ÀÓÀÇ ÀÔ·Â(3)À» ´­·¶À»¶§ ·£´ýÀ¸·Î Á¤ÇØÁö°í ¿òÁ÷ÀÌ´Â ÄÚµå
-	2023.11.06 - ÃÊ±âÃþ¿¡¼­ ÇöÀçÃþÀ¸·Î °¡°í ÇöÀçÃþ¿¡¼­ ¸ñÇ¥ÃþÀ¸·Î °¡´Â ÇÔ¼ö
-	2023.11.08 - ±¸Á¶Ã¼ ¼±¾ð
-	2023.11.09 - ÇÁ·Î¼¼½º »ý¼ºÇÏ´Â ÇÔ¼ö
-	2023.11.10 - ÇÁ·Î¼¼½º »ý¼ºÇÏ´Â ÇÔ¼ö ÁÖ¼®Ã³¸®(°æ·Î°¡ ¸ÂÁö¾ÊÀ½)
-	2023.11.13 - ¿¤¸®º£ÀÌÅÍÃþÀÌ ÇöÀçÃþ, ¸ñÇ¥ÃþÀÌ¶û °°´Ù¸é ¸ØÃã
-¿ÀÇÂ¼Ò½º :
-¶óÀÌºê·¯¸® :
+ï»¿/*
+ì—˜ë¦¬ë² ì´í„° ê´€ë¦¬ í”„ë¡œê·¸ëž¨
+ê°œë°œ í™˜ê²½ : VS2022, Cì–¸ì–´, Windows
+ê°œë°œ ëª©ì  : ì—˜ë¦¬ë² ì´í„° ê´€ë¦¬ í”„ë¡œê·¸ëž¨ì˜ ê°œë°œì„ í†µí•œ í”„ë¡œê·¸ëž˜ë° ëŠ¥ë ¥ í–¥ìƒ
+ê°œë°œ ê²°ê³¼ :
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.10.02 - main í•¨ìˆ˜ì—ì„œ ìž…ë ¥ì— ë”°ë¥¸ ifë¬¸ ìƒì„±, í˜„ìž¬ì¸µê³¼ ëª©í‘œì¸µ ìž…ë ¥
+	2023.10.07 - main í•¨ìˆ˜ì—ì„œ ì“°ë ˆë“œ í˜¸ì¶œ, ì“°ë ˆë“œ ìƒì„±
+	2023.10.21 - ë²„ë¸”ì •ë ¬ í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ì „ì—­ë³€ìˆ˜ì¸ currentFloor, targetFloor ë°°ì—´ì„ ì˜¤ë¦„ì°¨ìˆœì •ë ¬
+	2023.10.24 - ë²„ë¸”ì •ë ¬í•œ currentFloor, targetFloor ë°°ì—´ì„ ìƒˆë¡œìš´ ë°°ì—´ì— ì €ìž¥
+	2023.10.29 - ìµœëŒ€ê°’ê³¼ ìµœì†Ÿê°’ì„ êµ¬í•˜ëŠ” í•¨ìˆ˜
+	2023.10.30 - ë‹«íž˜ì—¬ë¶€ í•¨ìˆ˜
+	2023.11.03 - ì°½ì„ ì§€ìš°ëŠ” ì½”ë“œì™€ ì›í•˜ëŠ” xyì¢Œí‘œì— ì¶œë ¥í•  ìˆ˜ ìžˆëŠ” í•¨ìˆ˜
+	2023.11.05 - ì‚¬ìš©ìž ìž„ì˜ ìž…ë ¥(3)ì„ ëˆŒë €ì„ë•Œ ëžœë¤ìœ¼ë¡œ ì •í•´ì§€ê³  ì›€ì§ì´ëŠ” ì½”ë“œ
+	2023.11.06 - ì´ˆê¸°ì¸µì—ì„œ í˜„ìž¬ì¸µìœ¼ë¡œ ê°€ê³  í˜„ìž¬ì¸µì—ì„œ ëª©í‘œì¸µìœ¼ë¡œ ê°€ëŠ” í•¨ìˆ˜
+	2023.11.08 - êµ¬ì¡°ì²´ ì„ ì–¸
+	2023.11.09 - í”„ë¡œì„¸ìŠ¤ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+	2023.11.10 - í”„ë¡œì„¸ìŠ¤ ìƒì„±í•˜ëŠ” í•¨ìˆ˜ ì£¼ì„ì²˜ë¦¬(ê²½ë¡œê°€ ë§žì§€ì•ŠìŒ)
+	2023.11.13 - ì—˜ë¦¬ë² ì´í„°ì¸µì´ í˜„ìž¬ì¸µ, ëª©í‘œì¸µì´ëž‘ ê°™ë‹¤ë©´ ë©ˆì¶¤
+	2023.11.14 - ì—˜ë¦¬ë² ì´í„° ì›€ì§ì´ëŠ” í•¨ìˆ˜ ì£¼ì„ì²˜ë¦¬
+	2023.11.15 - ElevatorStatusì•ˆì— STOPPED, GOING_UP, GOING_DOWN
+ì˜¤í”ˆì†ŒìŠ¤ :
+ë¼ì´ë¸ŒëŸ¬ë¦¬ :
 */
 
 
@@ -34,9 +36,9 @@
 #include <tchar.h>
 
 
-#define SWAP(x,y,t) ( (t)=(x) , (x) = (y) , (y) =(t) ) // µÎ°³ÀÇ ÀÚ¸®¸¦ ¹Ù²ãÁÜ
+#define SWAP(x,y,t) ( (t)=(x) , (x) = (y) , (y) =(t) ) // ë‘ê°œì˜ ìžë¦¬ë¥¼ ë°”ê¿”ì¤Œ
 
-//CRITICAL_SECTION mutex; // ¹ÂÅØ½º Ãß°¡
+//CRITICAL_SECTION mutex; // ë®¤í…ìŠ¤ ì¶”ê°€
 
 int newcurrent[100] = { 0 };
 int newtarget[100] = { 0 };
@@ -64,13 +66,24 @@ int El_Floor(int EarlyFloor, int LaterFloor);
 
 //void MoveElevator();
 
+/*
+ì—´ê±°í˜• ìƒìˆ˜
+ì—´ê±°í˜• ëª©ì  : ì—˜ë¦¬ë² ì´í„° ìƒíƒœë¥¼ ì•Œê¸° ìœ„í•´ í•„ìš”
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.11.15 - ElevatorStatusì•ˆì— STOPPED, GOING_UP, GOING_DOWN
+*/
+enum ElevatorStatus {
+	STOPPED,
+	GOING_UP,
+	GOING_DOWN
+};
 
 /*
-¿¤¸®º£ÀÌÅÍ¿¡ ÇÊ¿äÇÑ ±¸Á¶Ã¼
-±¸Á¶Ã¼ ¸ñÀû : °¢°¢ 4°³ÀÇ ¹è¿­ÀÌ ÇÏ³ªÀÇ ±¸Á¶Ã¼ ¹è¿­¿¡ µé¾î°¨ »ç¶÷ÇÏ³ª´ç ±¸Á¶Ã¼ ¹è¿­¿¡ Ãß°¡
-return °ª :
-°³¹ß È÷½ºÅä¸® :
-	2023.11.08 - Àü¿ªº¯¼ö·Î ½è´ø º¯¼ö 4°³¸¦ ±¸Á¶Ã¼·Î ¹Ù²Þ
+ì—˜ë¦¬ë² ì´í„°ì— í•„ìš”í•œ êµ¬ì¡°ì²´
+êµ¬ì¡°ì²´ ëª©ì  : ê°ê° 4ê°œì˜ ë°°ì—´ì´ í•˜ë‚˜ì˜ êµ¬ì¡°ì²´ ë°°ì—´ì— ë“¤ì–´ê° ì‚¬ëžŒí•˜ë‚˜ë‹¹ êµ¬ì¡°ì²´ ë°°ì—´ì— ì¶”ê°€
+return ê°’ :
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.11.08 - ì „ì—­ë³€ìˆ˜ë¡œ ì¼ë˜ ë³€ìˆ˜ 4ê°œë¥¼ êµ¬ì¡°ì²´ë¡œ ë°”ê¿ˆ
 */
 struct Elevator
 {
@@ -78,25 +91,26 @@ struct Elevator
 	int targetFloor[100];
 	int button[100];
 	int people[100];
+	enum ElevatorStatus status;
 };
 
 struct Elevator elevator[100];
 
 /*
-¸ÞÀÎÇÔ¼ö
-ÇÔ¼ö ¸ñÀû : ¸ðµç ÁøÇàÀÌ ÀÌ·ç¾îÁö´Â °ø°£
-return °ª :
-°³¹ß È÷½ºÅä¸® :
-	2023.10.02 - ÀÔ·Â¿¡ µû¸¥ if¹® »ý¼º, »ç¿ëÀÚ ÇöÀçÃþ(currentFloor) ·£´ýÀ¸·Î ÀÔ·Â¹Þ±â, °¡°íÀÚÇÏ´Â Ãþ(targetFloor) ÀÔ·Â¹Þ±â
-	2023.10.07 - ¾²·¹µå È£Ãâ
-	2023.11.03 - Ã¢À» Áö¿ì´Â ÄÚµå ÀÛ¼º
-	2023.11.05 - ÀÓÀÇ ÀÔ·Â(3)À» ´­·¶À»¶§ ·£´ýÀ¸·Î ÀÛµ¿µÇ´Â ÄÚµå
-	2023.11.06 - ¿¤¸®º£ÀÌÅÍ ¿òÁ÷ÀÌ´Â ÇÔ¼ö È£Ãâ
+ë©”ì¸í•¨ìˆ˜
+í•¨ìˆ˜ ëª©ì  : ëª¨ë“  ì§„í–‰ì´ ì´ë£¨ì–´ì§€ëŠ” ê³µê°„
+return ê°’ :
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.10.02 - ìž…ë ¥ì— ë”°ë¥¸ ifë¬¸ ìƒì„±, ì‚¬ìš©ìž í˜„ìž¬ì¸µ(currentFloor) ëžœë¤ìœ¼ë¡œ ìž…ë ¥ë°›ê¸°, ê°€ê³ ìží•˜ëŠ” ì¸µ(targetFloor) ìž…ë ¥ë°›ê¸°
+	2023.10.07 - ì“°ë ˆë“œ í˜¸ì¶œ
+	2023.11.03 - ì°½ì„ ì§€ìš°ëŠ” ì½”ë“œ ìž‘ì„±
+	2023.11.05 - ìž„ì˜ ìž…ë ¥(3)ì„ ëˆŒë €ì„ë•Œ ëžœë¤ìœ¼ë¡œ ìž‘ë™ë˜ëŠ” ì½”ë“œ
+	2023.11.06 - ì—˜ë¦¬ë² ì´í„° ì›€ì§ì´ëŠ” í•¨ìˆ˜ í˜¸ì¶œ
 */
 int main()
 {
 
-	_beginthreadex(NULL, 0, thread_el1, 0, 0, NULL); // ¾²·¹µå È£Ãâ
+	_beginthreadex(NULL, 0, thread_el1, &i, 0, NULL); // ì“°ë ˆë“œ í˜¸ì¶œ
 
 
 	while (1)
@@ -107,45 +121,45 @@ int main()
 		int a;
 		srand(time(NULL));
 		//system("cls");
-		printf("À§(1), ¾Æ·¡(2), ÀÓÀÇ»ç¿ëÀÚ(3)");
-		scanf("%d", &a); //¼ýÀÚ·Î ÀÔ·Â
+		printf("ìœ„(1), ì•„ëž˜(2), ìž„ì˜ì‚¬ìš©ìž(3)");
+		scanf("%d", &a); //ìˆ«ìžë¡œ ìž…ë ¥
 		//printf("%d", button);
-		if (a == 1) { // 1 or 2¸¦ ÀÔ·ÂÇßÀ»¶§
+		if (a == 1) { // 1 or 2ë¥¼ ìž…ë ¥í–ˆì„ë•Œ
 			elevator[i].button[i] = a;
-			currentf = rand() % 100 + 1; // ÇöÀçÃþÀ» 1~100ÃþÁß ·£´ýÀ¸·Î °áÁ¤
-			elevator[i].currentFloor[i] = currentf; // Àü¿ªº¯¼ö·Î ¼±¾ðµÈcurrentFloor¿¡ ´ëÀÔ
-			while(1){
-				printf("°¡°íÀÚÇÏ´Â ÃþÀ» ÀÔ·Â");
-				scanf("%d", &targetf); // ¸ñÇ¥ÃþÀ» ÀÔ·Â¹ÞÀ½
-				if(targetf > currentf){
-					elevator[i].targetFloor[i] = targetf; // Àü¿ªº¯¼ö·Î ¼±¾ðµÈ targetFloor¿¡ ´ëÀÔ
+			currentf = rand() % 100 + 1; // í˜„ìž¬ì¸µì„ 1~100ì¸µì¤‘ ëžœë¤ìœ¼ë¡œ ê²°ì •
+			elevator[i].currentFloor[i] = currentf; // ì „ì—­ë³€ìˆ˜ë¡œ ì„ ì–¸ëœcurrentFloorì— ëŒ€ìž…
+			while (1) {
+				printf("ê°€ê³ ìží•˜ëŠ” ì¸µì„ ìž…ë ¥");
+				scanf("%d", &targetf); // ëª©í‘œì¸µì„ ìž…ë ¥ë°›ìŒ
+				if (targetf > currentf) {
+					elevator[i].targetFloor[i] = targetf; // ì „ì—­ë³€ìˆ˜ë¡œ ì„ ì–¸ëœ targetFloorì— ëŒ€ìž…
 					/*printf("%d %d\n", currentFloor[i], targetFloor[i]);*/
 					i++;
 					break;
 				}
 				else {
-					printf("¸ñÇ¥ÃþÀÌ ÇöÀçÃþº¸´Ù ³·½À´Ï´Ù\n´Ù½Ã ÀÔ·Â¹ÞÀ¸¼¼¿ä\n");
+					printf("ëª©í‘œì¸µì´ í˜„ìž¬ì¸µë³´ë‹¤ ë‚®ìŠµë‹ˆë‹¤\në‹¤ì‹œ ìž…ë ¥ë°›ìœ¼ì„¸ìš”\n");
 					/*system("cls");*/
 					continue;
 				}
 			}
 		}
-		else if (a == 2) { // 1 or 2¸¦ ÀÔ·ÂÇßÀ»¶§
+		else if (a == 2) { // 1 or 2ë¥¼ ìž…ë ¥í–ˆì„ë•Œ
 			elevator[i].button[i] = a;
-			currentf = rand() % 100 + 1; // ÇöÀçÃþÀ» 1~100ÃþÁß ·£´ýÀ¸·Î °áÁ¤
-			elevator[i].currentFloor[i] = currentf; // Àü¿ªº¯¼ö·Î ¼±¾ðµÈcurrentFloor¿¡ ´ëÀÔ
-			printf("°¡°íÀÚÇÏ´Â ÃþÀ» ÀÔ·Â");
+			currentf = rand() % 100 + 1; // í˜„ìž¬ì¸µì„ 1~100ì¸µì¤‘ ëžœë¤ìœ¼ë¡œ ê²°ì •
+			elevator[i].currentFloor[i] = currentf; // ì „ì—­ë³€ìˆ˜ë¡œ ì„ ì–¸ëœcurrentFloorì— ëŒ€ìž…
+			printf("ê°€ê³ ìží•˜ëŠ” ì¸µì„ ìž…ë ¥");
 			while (1) {
-				printf("°¡°íÀÚÇÏ´Â ÃþÀ» ÀÔ·Â");
-				scanf("%d", &targetf); // ¸ñÇ¥ÃþÀ» ÀÔ·Â¹ÞÀ½
+				printf("ê°€ê³ ìží•˜ëŠ” ì¸µì„ ìž…ë ¥");
+				scanf("%d", &targetf); // ëª©í‘œì¸µì„ ìž…ë ¥ë°›ìŒ
 				if (targetf < currentf) {
-					elevator[i].targetFloor[i] = targetf; // Àü¿ªº¯¼ö·Î ¼±¾ðµÈ targetFloor¿¡ ´ëÀÔ
+					elevator[i].targetFloor[i] = targetf; // ì „ì—­ë³€ìˆ˜ë¡œ ì„ ì–¸ëœ targetFloorì— ëŒ€ìž…
 					/*printf("%d %d\n", currentFloor[i], targetFloor[i]);*/
 					i++;
 					break;
 				}
 				else {
-					printf("¸ñÇ¥ÃþÀÌ ÇöÀçÃþº¸´Ù ³ô½À´Ï´Ù\n´Ù½Ã ÀÔ·Â¹ÞÀ¸¼¼¿ä\n");
+					printf("ëª©í‘œì¸µì´ í˜„ìž¬ì¸µë³´ë‹¤ ë†’ìŠµë‹ˆë‹¤\në‹¤ì‹œ ìž…ë ¥ë°›ìœ¼ì„¸ìš”\n");
 					/*system("cls");*/
 					continue;
 				}
@@ -153,20 +167,20 @@ int main()
 		}
 		else if (a == 3) {
 			srand(time(NULL));
-			elevator[i].button[i] = rand() % 2 + 1; //¹öÆ°µµ À§·Î °¥°ÇÁö ¾Æ·¡·Î °¥°ÇÁö ·£´ý
-			currentf = rand() % 100 + 1; //ÇöÀç Ãþµµ ·£´ý
+			elevator[i].button[i] = rand() % 2 + 1; //ë²„íŠ¼ë„ ìœ„ë¡œ ê°ˆê±´ì§€ ì•„ëž˜ë¡œ ê°ˆê±´ì§€ ëžœë¤
+			currentf = rand() % 100 + 1; //í˜„ìž¬ ì¸µë„ ëžœë¤
 			elevator[i].currentFloor[i] = currentf;
-			if (elevator[i].button[i] == 1) { //À§·Î °¥ °æ¿ì
-				targetf = rand() % (99 - currentf) + currentf; // ÇöÀçÃþÀÌ ¸ñÇ¥Ãþº¸´Ù ³ôÀ¸¸é ¾ÈµÇ¹Ç·Î ·£´ý
+			if (elevator[i].button[i] == 1) { //ìœ„ë¡œ ê°ˆ ê²½ìš°
+				targetf = rand() % (99 - currentf) + currentf; // í˜„ìž¬ì¸µì´ ëª©í‘œì¸µë³´ë‹¤ ë†’ìœ¼ë©´ ì•ˆë˜ë¯€ë¡œ ëžœë¤
 			}
 			else if (elevator[i].button[i] == 2) {
-				targetf = rand() % (currentf - 1) + 1; //ÇöÀçÃþÀÌ ¸ñÇ¥Ãþº¸´Ù ³·À¸¸é ¾ÈµÇ¹Ç·Î ·£´ý
+				targetf = rand() % (currentf - 1) + 1; //í˜„ìž¬ì¸µì´ ëª©í‘œì¸µë³´ë‹¤ ë‚®ìœ¼ë©´ ì•ˆë˜ë¯€ë¡œ ëžœë¤
 			}
 			elevator[i].targetFloor[i] = targetf;
 			i++;
 		}
-		else{
-			printf("´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä\n");
+		else {
+			printf("ë‹¤ì‹œ ìž…ë ¥í•˜ì„¸ìš”\n");
 			continue;
 		}
 		/*CreateElevatorProcess();*/
@@ -180,71 +194,84 @@ int main()
 //		printf("%d\n", i);
 //		printf("%d\n", elevator[i].currentFloor[i]);
 //		/*int el1_currentMin, el1_currentMax, el1_targetMin, el1_targetMax;*/
-//		MinMax(elevator[i].currentFloor[i], el1_currentMin, el1_currentMax, i); // ÃÖ´ë°ª, ÃÖ¼Ú°ª
-//		BubbleSort(elevator[i].currentFloor, i);//¹öºíÁ¤·Ä ÇÔ¼ö È£Ãâ(currentFloor ¹è¿­À» Á¤·Ä)
+//		MinMax(elevator[i].currentFloor[i], el1_currentMin, el1_currentMax, i); // ìµœëŒ€ê°’, ìµœì†Ÿê°’
+//		BubbleSort(elevator[i].currentFloor, i);//ë²„ë¸”ì •ë ¬ í•¨ìˆ˜ í˜¸ì¶œ(currentFloor ë°°ì—´ì„ ì •ë ¬)
 //		for (int j = 0; j < i; j++) {
-//			newcurrent[j] = elevator[i].currentFloor[j]; // newcurrent¹è¿­¿¡ ÀúÀå
+//			newcurrent[j] = elevator[i].currentFloor[j]; // newcurrentë°°ì—´ì— ì €ìž¥
 //		}
 //		printf("%d %d", el1_currentMin, el1_currentMax);
 //		MinMax(elevator[i].targetFloor, el1_targetMin, el1_targetMax, i);
-//		BubbleSort(elevator[i].targetFloor, i);//¹öºíÁ¤·Ä ÇÔ¼ö È£Ãâ
+//		BubbleSort(elevator[i].targetFloor, i);//ë²„ë¸”ì •ë ¬ í•¨ìˆ˜ í˜¸ì¶œ
 //		for (int j = 0; j < i; j++) {
-//			newtarget[j] = elevator[i].targetFloor[j]; // newtarget¹è¿­¿¡ ÀúÀå
+//			newtarget[j] = elevator[i].targetFloor[j]; // newtargetë°°ì—´ì— ì €ìž¥
 //		}
 //		printf("%d %d", el1_targetMin, el1_targetMax);
 //	}
 //}
 
 /*
-µ¶¸³ÀûÀ¸·Î ¿òÁ÷ÀÌ´Â ¾²·¹µå
-ÇÔ¼ö ¸ñÀû : ¸ÞÀÎ¿¡¼­ ÀÔ·Â¹Þ°í Àü¿ªº¯¼öÀÇ ¹è¿­¿¡ ³ÖÀ¸¸é ¿¤¸®º£ÀÌÅÍ À§Ä¡¿Í ºñ±³
-°³¹ß È÷½ºÅä¸® :
-	2023.10.07 - ¾²·¹µå »ý¼º
-	2023.10.21 - Àü¿ªº¯¼öÀÎ currentFloor, targetFloor ¹è¿­À» ¹öºíÁ¤·Ä
-	2023.10.24 - ¹öºíÁ¤·ÄÇÑ currentFloor, targetFloor ¹è¿­À» »õ·Î¿î ¹è¿­¿¡ ÀúÀå
-	2023.10.29 - ÃÖ´ëÃÖ¼Ò°ªÀ» Ã£´Â ÇÔ¼ö ¼±¾ð
-	2023.11.05 - ´ÝÈû¹öÆ° ÇÔ¼ö È£Ãâ
-	2023.11.13 - ¿¤¸®º£ÀÌÅÍ¿Í ÇöÀçÃþ, ¸ñÇ¥ÃþÀÌ °°´Ù¸é ¸ØÃã
+ë…ë¦½ì ìœ¼ë¡œ ì›€ì§ì´ëŠ” ì“°ë ˆë“œ
+í•¨ìˆ˜ ëª©ì  : ë©”ì¸ì—ì„œ ìž…ë ¥ë°›ê³  ì „ì—­ë³€ìˆ˜ì˜ ë°°ì—´ì— ë„£ìœ¼ë©´ ì—˜ë¦¬ë² ì´í„° ìœ„ì¹˜ì™€ ë¹„êµ
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.10.07 - ì“°ë ˆë“œ ìƒì„±
+	2023.10.21 - ì „ì—­ë³€ìˆ˜ì¸ currentFloor, targetFloor ë°°ì—´ì„ ë²„ë¸”ì •ë ¬
+	2023.10.24 - ë²„ë¸”ì •ë ¬í•œ currentFloor, targetFloor ë°°ì—´ì„ ìƒˆë¡œìš´ ë°°ì—´ì— ì €ìž¥
+	2023.10.29 - ìµœëŒ€ìµœì†Œê°’ì„ ì°¾ëŠ” í•¨ìˆ˜ ì„ ì–¸
+	2023.11.05 - ë‹«íž˜ë²„íŠ¼ í•¨ìˆ˜ í˜¸ì¶œ
+	2023.11.13 - ì—˜ë¦¬ë² ì´í„°ì™€ í˜„ìž¬ì¸µ, ëª©í‘œì¸µì´ ê°™ë‹¤ë©´ ë©ˆì¶¤
 */
 unsigned _stdcall thread_el1(void* arg)
 {
+	/*const char* statusStrings[] = { "STOPPED", "GOING_UP", "GOING_DOWN" };*/
+
+	/*int elevatorIndex = *((int*)arg);*/
+
 	while (1)
 	{
+		if (elevator[i].currentFloor[i] < elevator[i].targetFloor[i]) {
+			elevator[i].status = GOING_UP;
+		}
+		else if (elevator[i].currentFloor[i] > elevator[i].targetFloor[i]) {
+			elevator[i].status = GOING_DOWN;
+		}
+		else {
+			elevator[i].status = STOPPED;
+		}
 		int i = 0;
 		/*printf("%d\n", i);*/
 		/*printf("%d %d\n", elevator[i].currentFloor[i], elevator);*/
-		MinMax(elevator[i].currentFloor, &el1_currentMin, &el1_currentMax, i); // ÃÖ´ë°ª, ÃÖ¼Ú°ª
-		BubbleSort(elevator[i].currentFloor, i);//¹öºíÁ¤·Ä ÇÔ¼ö È£Ãâ(currentFloor ¹è¿­À» Á¤·Ä)
+		MinMax(elevator[i].currentFloor, &el1_currentMin, &el1_currentMax, i); // ìµœëŒ€ê°’, ìµœì†Ÿê°’
+		BubbleSort(elevator[i].currentFloor, i);//ë²„ë¸”ì •ë ¬ í•¨ìˆ˜ í˜¸ì¶œ(currentFloor ë°°ì—´ì„ ì •ë ¬)
 		for (int j = 0; j < i; j++) {
-			newcurrent[j] = elevator[i].currentFloor[j]; // newcurrent¹è¿­¿¡ ÀúÀå
+			newcurrent[j] = elevator[i].currentFloor[j]; // newcurrentë°°ì—´ì— ì €ìž¥
 		}
 		/*printf("%d %d", el1_currentMin, el1_currentMax);*/
 		MinMax(elevator[i].targetFloor, &el1_targetMin, &el1_targetMax, i);
-		BubbleSort(elevator[i].targetFloor, i);//¹öºíÁ¤·Ä ÇÔ¼ö È£Ãâ
+		BubbleSort(elevator[i].targetFloor, i);//ë²„ë¸”ì •ë ¬ í•¨ìˆ˜ í˜¸ì¶œ
 		for (int j = 0; j < i; j++) {
-			newtarget[j] = elevator[i].targetFloor[j]; // newtarget¹è¿­¿¡ ÀúÀå
+			newtarget[j] = elevator[i].targetFloor[j]; // newtargetë°°ì—´ì— ì €ìž¥
 		}
 		/*printf("%d %d", el1_targetMin, el1_targetMax);*/
 
 		if (elevator[i].currentFloor[i] != 0 && elevator[i].targetFloor[i] != 0) {
 			/*elevator[i].currentFloor[i] = El_Floor(current, target)*/;
 			if (elevator1 == elevator[i].currentFloor[i]) {
-				printf("¿¤¸®º£ÀÌÅÍ°¡ ÇöÀç »ç¿ëÀÚ°¡ ÀÖ´Â %d¿¡ µµÂøÇß½À´Ï´Ù.\n", elevator[i].currentFloor[i]);
+				printf("ì—˜ë¦¬ë² ì´í„°ê°€ í˜„ìž¬ ì‚¬ìš©ìžê°€ ìžˆëŠ” %dì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.\n", elevator[i].currentFloor[i]);
 
-				// ¿¤¸®º£ÀÌÅÍ ¸ØÃã
-				Sleep(3000); // 3ÃÊ µ¿¾È ¸ØÃã
+				// ì—˜ë¦¬ë² ì´í„° ë©ˆì¶¤
+				Sleep(3000); // 3ì´ˆ ë™ì•ˆ ë©ˆì¶¤
 
-				// ¿¤¸®º£ÀÌÅÍ Ãâ¹ß Àü ÃÊ±âÈ­
+				// ì—˜ë¦¬ë² ì´í„° ì¶œë°œ ì „ ì´ˆê¸°í™”
 				//elevator[i].currentFloor[i] = 0;
 				//elevator[i].targetFloor[i] = 0;
 			}
 			if (elevator1 == elevator[i].targetFloor[i]) {
-				printf("¿¤¸®º£ÀÌÅÍ°¡ ¸ñÇ¥ÃþÀÎ %d¿¡ µµÂøÇß½À´Ï´Ù.\n", elevator[i].targetFloor[i]);
+				printf("ì—˜ë¦¬ë² ì´í„°ê°€ ëª©í‘œì¸µì¸ %dì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.\n", elevator[i].targetFloor[i]);
 
-				// ¿¤¸®º£ÀÌÅÍ ¸ØÃã
-				Sleep(3000); // 3ÃÊ µ¿¾È ¸ØÃã
+				// ì—˜ë¦¬ë² ì´í„° ë©ˆì¶¤
+				Sleep(3000); // 3ì´ˆ ë™ì•ˆ ë©ˆì¶¤
 
-				// ¿¤¸®º£ÀÌÅÍ Ãâ¹ß Àü ÃÊ±âÈ­
+				// ì—˜ë¦¬ë² ì´í„° ì¶œë°œ ì „ ì´ˆê¸°í™”
 				//elevator[i].currentFloor[i] = 0;
 				//elevator[i].targetFloor[i] = 0;
 			}
@@ -252,7 +279,7 @@ unsigned _stdcall thread_el1(void* arg)
 			printf("%d\n", elevator1);
 			elevator1++;
 		}
-		//if (elevator1 <= elevator[i].currentFloor[i]) {//¹è¿­¿¡ 0ÀÌ ¾Æ´Ï¶ó¸é(¹è¿­¿¡ ¼ýÀÚ°¡ µé¾î°¡ÀÖ´Ù´Â ¶æ)
+		//if (elevator1 <= elevator[i].currentFloor[i]) {//ë°°ì—´ì— 0ì´ ì•„ë‹ˆë¼ë©´(ë°°ì—´ì— ìˆ«ìžê°€ ë“¤ì–´ê°€ìžˆë‹¤ëŠ” ëœ»)
 		//	Sleep(500);
 		//	elevator1++;
 		//	printf("%d", elevator1);
@@ -261,39 +288,39 @@ unsigned _stdcall thread_el1(void* arg)
 		//		if (elevator1 == newcurrent[k])
 		//		{
 		//			int close;
-		//			printf("´ÝÈû¹öÆ°(1)>");
-		//			scanf("%d", &close); //´ÝÈû¹öÆ°À» ÀÔ·Â
-		//			Cl_Button(close); // ÇÔ¼ö ÀÌµ¿
+		//			printf("ë‹«íž˜ë²„íŠ¼(1)>");
+		//			scanf("%d", &close); //ë‹«íž˜ë²„íŠ¼ì„ ìž…ë ¥
+		//			Cl_Button(close); // í•¨ìˆ˜ ì´ë™
 		//		}
 		//	}
 		//	for (int k = 0; k < i; k++)
 		//	{
 		//		if (elevator1 == newtarget[k])
 		//		{
-		//			Sleep(3000); // ¸ñÇ¥Ãþ¿¡ µµÂøÇÏ¸é »ç¶÷ÀÌ ³»¸®°í 3ÃÊÈÄ °¨
-		//			printf("µµÂø Ãþ: %d\n", elevator1);
+		//			Sleep(3000); // ëª©í‘œì¸µì— ë„ì°©í•˜ë©´ ì‚¬ëžŒì´ ë‚´ë¦¬ê³  3ì´ˆí›„ ê°
+		//			printf("ë„ì°© ì¸µ: %d\n", elevator1);
 		//		}
 		//	}
 		//}
 
 
 
-		/*¿Ã¤©°¡´Â°ªŸÕ ¤Ê´ë°¨
-		³»·Á°¡´Â ÃþÀÇ ÃÖ¼Ò°¨
-		ÇöÀç ¿¤¸®ÀÌÅÍ Ãþ
-		 ÁhÀç ¿¤¸®º£ÀÌÅÍ Ç×ÅÂ :¿Ã¶ó°¡´ÀÁö ³»·Á°¡Áø
-		Á¤·Ä
-		³»·Á°¥¶§´Â Á¤·Ä¼ø¼­°¡ ³»¸²Â÷¼ø*/
+		/*ì˜¬ã„¹ê°€ëŠ”ê°’ÂŸ ã…šëŒ€ê°
+		ë‚´ë ¤ê°€ëŠ” ì¸µì˜ ìµœì†Œê°
+		í˜„ìž¬ ì—˜ë¦¬ì´í„° ì¸µ
+		 hìž¬ ì—˜ë¦¬ë² ì´í„° í•­íƒœ :ì˜¬ë¼ê°€ëŠì§€ ë‚´ë ¤ê°€ì§„
+		ì •ë ¬
+		ë‚´ë ¤ê°ˆë•ŒëŠ” ì •ë ¬ìˆœì„œê°€ ë‚´ë¦¼ì°¨ìˆœ*/
 
 	}
 
 }
 
 /*
-¹öºíÁ¤·Ä
-ÇÔ¼ö ¸ñÀû : ¿À¸§Â÷¼øÀ¸·Î Á¤·ÄÇØÁÜ
-°³¹ß È÷½ºÅä¸® :
-	2023.10.24 - ¹öºíÁ¤·ÄÀ» ÅëÇØ ¿À¸§Â÷¼ø Á¤·Ä
+ë²„ë¸”ì •ë ¬
+í•¨ìˆ˜ ëª©ì  : ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ ì •ë ¬í•´ì¤Œ
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.10.24 - ë²„ë¸”ì •ë ¬ì„ í†µí•´ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
 */
 void BubbleSort(int list[], int n) {
 	int i, j, temp;
@@ -307,15 +334,15 @@ void BubbleSort(int list[], int n) {
 }
 
 /*
-ÃÖ´ëÃÖ¼Ò°ª
-ÇÔ¼ö ¸ñÀû : ÃÖ´ë°ª°ú ÃÖ¼Ò°ªÀ» ±¸ÇÔ
-°³¹ß È÷½ºÅä¸® :
-	2023.10.29 - min, max °ªÀ» ±¸ÇÔ
+ìµœëŒ€ìµœì†Œê°’
+í•¨ìˆ˜ ëª©ì  : ìµœëŒ€ê°’ê³¼ ìµœì†Œê°’ì„ êµ¬í•¨
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.10.29 - min, max ê°’ì„ êµ¬í•¨
 */
 void MinMax(int list[], int* min, int* max, int size) { //
 	//while(1){
 	//	if (i <= 0) {
-	//		// ¹è¿­ÀÌ ºñ¾îÀÖÀ» ¶§ÀÇ ¿¹¿Ü Ã³¸®
+	//		// ë°°ì—´ì´ ë¹„ì–´ìžˆì„ ë•Œì˜ ì˜ˆì™¸ ì²˜ë¦¬
 	//		return MinMax;
 	//	}
 	//	else
@@ -326,24 +353,24 @@ void MinMax(int list[], int* min, int* max, int size) { //
 		*max = 0;
 		return;
 	}
-	*min = list[0]; // ÃÊ±â Æ÷ÀÎÅÍ min°ªÀ» list[0]
-	*max = list[0]; // ÃÊ±â Æ÷ÀÎÅÍ max°ªÀ» list[0]
+	*min = list[0]; // ì´ˆê¸° í¬ì¸í„° minê°’ì„ list[0]
+	*max = list[0]; // ì´ˆê¸° í¬ì¸í„° maxê°’ì„ list[0]
 	for (int j = 0; j < size; j++) {
-		if (list[j] < *min) { // list[j]°¡ min º¸´Ù ÀÛ´Ù¸é 
-			*min = list[j]; // min¿¡ list[j] °ªÀ» ´ëÀÔ
+		if (list[j] < *min) { // list[j]ê°€ min ë³´ë‹¤ ìž‘ë‹¤ë©´ 
+			*min = list[j]; // minì— list[j] ê°’ì„ ëŒ€ìž…
 		}
-		if (list[j] > *max) { // list[j]°¡ max º¸´Ù Å©´Ù¸é
-			*max = list[j]; // max¿¡ list[j] °ªÀ» ´ëÀÔ
+		if (list[j] > *max) { // list[j]ê°€ max ë³´ë‹¤ í¬ë‹¤ë©´
+			*max = list[j]; // maxì— list[j] ê°’ì„ ëŒ€ìž…
 		}
 	}
 }
 
 /*
-´ÝÈû¹öÆ°À» »ç¿ë¿©ºÎ
-ÇÔ¼ö ¸ñÀû : ´ÝÈû¹öÆ°À» ´©¸£¸é 1ÃÊÀÌÈÄ ´ÝÈ÷°í ¾È´©¸£¸é 3ÃÊÈÄ¿¡ ´ÝÈû
-return °ª : ·¥´ýÇÑ°ªÀ¸·Î ¹ÞÀº ÇöÀç »ç¿ëÀÚ À§Ä¡
-°³¹ß È÷½ºÅä¸® :
-	2023.10.30 - Sleep ÇÔ¼ö¸¦ ÀÌ¿ëÇØ ´ÝÈû¹öÆ°À» ´©¸£¸é 1ÃÊµÚ ¹®ÀÌ´ÝÈû´Ï´Ù Ãâ·Â ¾Æ´Ï¶ó¸é 3ÃÊµÚ Ãâ·Â
+ë‹«íž˜ë²„íŠ¼ì„ ì‚¬ìš©ì—¬ë¶€
+í•¨ìˆ˜ ëª©ì  : ë‹«íž˜ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ 1ì´ˆì´í›„ ë‹«ížˆê³  ì•ˆëˆ„ë¥´ë©´ 3ì´ˆí›„ì— ë‹«íž˜
+return ê°’ : ëž¨ë¤í•œê°’ìœ¼ë¡œ ë°›ì€ í˜„ìž¬ ì‚¬ìš©ìž ìœ„ì¹˜
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.10.30 - Sleep í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ë‹«íž˜ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ 1ì´ˆë’¤ ë¬¸ì´ë‹«íž˜ë‹ˆë‹¤ ì¶œë ¥ ì•„ë‹ˆë¼ë©´ 3ì´ˆë’¤ ì¶œë ¥
 */
 int Cl_Button(int Close)
 {
@@ -352,16 +379,16 @@ int Cl_Button(int Close)
 	}
 	else
 		Sleep(3000);
-	printf("¹®ÀÌ ´ÝÈû´Ï´Ù\n");
+	printf("ë¬¸ì´ ë‹«íž˜ë‹ˆë‹¤\n");
 	return 0;
 }
 
 /*
-cmdÈ¯°æ¿¡¼­ À§Ä¡ ÁöÁ¤ÇØÁÖ´Â ÇÔ¼ö
-ÇÔ¼ö ¸ñÀû : ÇÔ¼ö¸¦ ¼±¾ðÇÏ¸é x,yÀÇ ÁÂÇ¥°ª¿¡ Ç¥Çö
-return °ª :
-°³¹ß È÷½ºÅä¸® :
-	2023.11.03 - ÁÂÇ¥ÁöÁ¤ÇØ ÁÂÇ¥À§Ä¡¿¡ Ãâ·Â
+cmdí™˜ê²½ì—ì„œ ìœ„ì¹˜ ì§€ì •í•´ì£¼ëŠ” í•¨ìˆ˜
+í•¨ìˆ˜ ëª©ì  : í•¨ìˆ˜ë¥¼ ì„ ì–¸í•˜ë©´ x,yì˜ ì¢Œí‘œê°’ì— í‘œí˜„
+return ê°’ :
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.11.03 - ì¢Œí‘œì§€ì •í•´ ì¢Œí‘œìœ„ì¹˜ì— ì¶œë ¥
 */
 void Gotxy(int x, int y)
 {
@@ -373,47 +400,48 @@ void Gotxy(int x, int y)
 }
 
 /*
-ÃÊ±âÃþ¿¡¼­ °¡°í½ÍÀº ÃþÀ¸·Î °¡´Â ÄÚµå
-ÇÔ¼ö ¸ñÀû : ÃÊ±â°ªÀ» ³¡³¯¶§¸¶´Ù ¹Ù²ã ½ÃÀÛ ÁöÁ¡À» ¹Ù²Û´Ù
-return °ª : ¹Ù²ï ÃÊ±â°ª
-°³¹ß È÷½ºÅä¸® :
-	2023.11.06 - ÃÊ±âÃþ¿¡¼­ ÇöÀçÃþÀ¸·Î °¡°í ÇöÀçÃþ¿¡¼­ ¸ñÇ¥ÃþÀ¸·Î °¡´Â ÇÔ¼ö ±¸Çö(¿¤¸®º£ÀÌÅÍ ÇÑÃþ´ç ¼Óµµ´Â SleepÇÔ¼ö¸¦ »ç¿ëÇØ 0.5ÃÊ)
+ì´ˆê¸°ì¸µì—ì„œ ê°€ê³ ì‹¶ì€ ì¸µìœ¼ë¡œ ê°€ëŠ” ì½”ë“œ
+í•¨ìˆ˜ ëª©ì  : ì´ˆê¸°ê°’ì„ ëë‚ ë•Œë§ˆë‹¤ ë°”ê¿” ì‹œìž‘ ì§€ì ì„ ë°”ê¾¼ë‹¤
+return ê°’ : ë°”ë€ ì´ˆê¸°ê°’
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.11.06 - ì´ˆê¸°ì¸µì—ì„œ í˜„ìž¬ì¸µìœ¼ë¡œ ê°€ê³  í˜„ìž¬ì¸µì—ì„œ ëª©í‘œì¸µìœ¼ë¡œ ê°€ëŠ” í•¨ìˆ˜ êµ¬í˜„(ì—˜ë¦¬ë² ì´í„° í•œì¸µë‹¹ ì†ë„ëŠ” Sleepí•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ 0.5ì´ˆ)
+	2023.11.14 - ì£¼ì„ì²˜ë¦¬
 */
-int El_Floor(int EarlyFloor, int LaterFloor) {
-	double timePerFloor = 0.5; // ÇÑ Ãþ ÀÌµ¿¿¡ °É¸®´Â ½Ã°£ (ÃÊ)
-
-	if (EarlyFloor == LaterFloor) {
-		printf("¿¤¸®º£ÀÌÅÍ´Â ÀÌ¹Ì Ãþ¿¡ µµÂøÇß½À´Ï´Ù.\n"); //ÇöÀçÃþ°ú ¸ñÇ¥ÃþÀ» ºñ±³ÇÏ¿© °°´Ù¸é ¹®±¸ Ãâ·Â
-	}
-	else if (EarlyFloor < LaterFloor) {
-		printf("¿¤¸®º£ÀÌÅÍ°¡ %dÃþ¿¡¼­ %dÃþÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.\n", EarlyFloor - 10, LaterFloor - 10); //ÇöÀçÃþÀÌ ¸ñÇ¥Ãþº¸´Ù ÀÛ´Ù¸é ÇöÀçÃþ¿¡¼­ ¸ñÇ¥ÃþÀ¸·Î Áõ°¡
-		while (EarlyFloor < LaterFloor) {
-			Sleep((int)(timePerFloor * 1000)); // Sleep ÇÔ¼ö¸¦ »ç¿ëÇÏ¿© 0.5ÃÊ ´ë±â
-			EarlyFloor++; //
-			printf("ÇöÀç %dÃþ\n", EarlyFloor - 10); //¼ýÀÚ¸¦ ÇÏ³ª¾¿ Áõ°¡ÇØÁÖ¸é¼­ Ãþ º¸¿©ÁÜ
-		}
-		printf("¿¤¸®º£ÀÌÅÍ°¡ %d¿¡ µµÂøÇß½À´Ï´Ù.\n", LaterFloor - 10);
-		EarlyFloor = LaterFloor;
-	}
-	else {
-		printf("¿¤¸®º£ÀÌÅÍ°¡ %dÃþ¿¡¼­ %dÃþÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.\n", EarlyFloor - 10, LaterFloor - 10); //ÇöÀçÃþÀÌ ¸ñÇ¥Ãþº¸´Ù Å©´Ù¸é ÇöÀçÃþ¿¡¼­ ¸ñÇ¥ÃþÀ¸·Î Áõ°¡
-		while (EarlyFloor > LaterFloor) {
-			Sleep((int)(timePerFloor * 1000)); // Sleep ÇÔ¼ö¸¦ »ç¿ëÇÏ¿© ´ë±â
-			EarlyFloor--;
-			printf("ÇöÀç %dÃþ\n", EarlyFloor - 10); //¼ýÀÚ¸¦ ÇÏ³ª¾¿ °¨¼ÒÇØÁÖ¸é¼­ Ãþ º¸¿©ÁÜ
-		}
-		printf("¿¤¸®º£ÀÌÅÍ°¡ %d¿¡ µµÂøÇß½À´Ï´Ù.\n", LaterFloor - 10);
-		EarlyFloor = LaterFloor;
-	}
-	return EarlyFloor;
-}
+//int El_Floor(int EarlyFloor, int LaterFloor) {
+//	double timePerFloor = 0.5; // í•œ ì¸µ ì´ë™ì— ê±¸ë¦¬ëŠ” ì‹œê°„ (ì´ˆ)
+//
+//	if (EarlyFloor == LaterFloor) {
+//		printf("ì—˜ë¦¬ë² ì´í„°ëŠ” ì´ë¯¸ ì¸µì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.\n"); //í˜„ìž¬ì¸µê³¼ ëª©í‘œì¸µì„ ë¹„êµí•˜ì—¬ ê°™ë‹¤ë©´ ë¬¸êµ¬ ì¶œë ¥
+//	}
+//	else if (EarlyFloor < LaterFloor) {
+//		printf("ì—˜ë¦¬ë² ì´í„°ê°€ %dì¸µì—ì„œ %dì¸µìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.\n", EarlyFloor - 10, LaterFloor - 10); //í˜„ìž¬ì¸µì´ ëª©í‘œì¸µë³´ë‹¤ ìž‘ë‹¤ë©´ í˜„ìž¬ì¸µì—ì„œ ëª©í‘œì¸µìœ¼ë¡œ ì¦ê°€
+//		while (EarlyFloor < LaterFloor) {
+//			Sleep((int)(timePerFloor * 1000)); // Sleep í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì—¬ 0.5ì´ˆ ëŒ€ê¸°
+//			EarlyFloor++; //
+//			printf("í˜„ìž¬ %dì¸µ\n", EarlyFloor - 10); //ìˆ«ìžë¥¼ í•˜ë‚˜ì”© ì¦ê°€í•´ì£¼ë©´ì„œ ì¸µ ë³´ì—¬ì¤Œ
+//		}
+//		printf("ì—˜ë¦¬ë² ì´í„°ê°€ %dì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.\n", LaterFloor - 10);
+//		EarlyFloor = LaterFloor;
+//	}
+//	else {
+//		printf("ì—˜ë¦¬ë² ì´í„°ê°€ %dì¸µì—ì„œ %dì¸µìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.\n", EarlyFloor - 10, LaterFloor - 10); //í˜„ìž¬ì¸µì´ ëª©í‘œì¸µë³´ë‹¤ í¬ë‹¤ë©´ í˜„ìž¬ì¸µì—ì„œ ëª©í‘œì¸µìœ¼ë¡œ ì¦ê°€
+//		while (EarlyFloor > LaterFloor) {
+//			Sleep((int)(timePerFloor * 1000)); // Sleep í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì—¬ ëŒ€ê¸°
+//			EarlyFloor--;
+//			printf("í˜„ìž¬ %dì¸µ\n", EarlyFloor - 10); //ìˆ«ìžë¥¼ í•˜ë‚˜ì”© ê°ì†Œí•´ì£¼ë©´ì„œ ì¸µ ë³´ì—¬ì¤Œ
+//		}
+//		printf("ì—˜ë¦¬ë² ì´í„°ê°€ %dì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.\n", LaterFloor - 10);
+//		EarlyFloor = LaterFloor;
+//	}
+//	return EarlyFloor;
+//}
 
 /*
-ÇÁ·Î¼¼½º ÇÔ¼ö »ý¼º
-ÇÔ¼ö ¸ñÀû : ¿¤¸®º£ÀÌÅÍ°¡ ¿òÁ÷ÀÌ´Â ¸ð½ÀÀÌ ÇÁ·Î¼¼½º¿¡¼­¸¸ ¿òÁ÷ÀÌ°Ô
-°³¹ß È÷½ºÅä¸® :
-	2023.11.09 - ÇÁ·Î¼¼½º¸¦ »ý¼º
-	2023.11.10 - ÁÖ¼®Ã³¸®
+í”„ë¡œì„¸ìŠ¤ í•¨ìˆ˜ ìƒì„±
+í•¨ìˆ˜ ëª©ì  : ì—˜ë¦¬ë² ì´í„°ê°€ ì›€ì§ì´ëŠ” ëª¨ìŠµì´ í”„ë¡œì„¸ìŠ¤ì—ì„œë§Œ ì›€ì§ì´ê²Œ
+ê°œë°œ ížˆìŠ¤í† ë¦¬ :
+	2023.11.09 - í”„ë¡œì„¸ìŠ¤ë¥¼ ìƒì„±
+	2023.11.10 - ì£¼ì„ì²˜ë¦¬
 */
 //void CreateElevatorProcess()
 //{
@@ -424,20 +452,20 @@ int El_Floor(int EarlyFloor, int LaterFloor) {
 //	si.cb = sizeof(si);
 //	ZeroMemory(&pi, sizeof(pi));
 //
-//	// ÇÁ·Î¼¼½º »ý¼º
+//	// í”„ë¡œì„¸ìŠ¤ ìƒì„±
 //	if (!CreateProcess(
-//		_T("D:\\program\\finall\\TremProject\\process1.exe"), // ½ÇÇà ÆÄÀÏ °æ·Î
-//		NULL,                            // Ä¿¸Çµå ¶óÀÎ
-//		NULL,                            // º¸¾È ¼Ó¼º
-//		NULL,                            // º¸¾È ¼Ó¼º
-//		FALSE,                           // »ó¼Ó ¿©ºÎ
-//		0,                               // ÇÃ·¡±×
-//		NULL,                            // È¯°æ º¯¼ö
-//		NULL,                            // ÇöÀç µð·ºÅä¸®
-//		&si,                             // ½ÃÀÛ Á¤º¸ ±¸Á¶Ã¼
-//		&pi))                            // ÇÁ·Î¼¼½º Á¤º¸ ±¸Á¶Ã¼
+//		_T("D:\\program\\finall\\TremProject\\process1.exe"), // ì‹¤í–‰ íŒŒì¼ ê²½ë¡œ
+//		NULL,                            // ì»¤ë§¨ë“œ ë¼ì¸
+//		NULL,                            // ë³´ì•ˆ ì†ì„±
+//		NULL,                            // ë³´ì•ˆ ì†ì„±
+//		FALSE,                           // ìƒì† ì—¬ë¶€
+//		0,                               // í”Œëž˜ê·¸
+//		NULL,                            // í™˜ê²½ ë³€ìˆ˜
+//		NULL,                            // í˜„ìž¬ ë””ë ‰í† ë¦¬
+//		&si,                             // ì‹œìž‘ ì •ë³´ êµ¬ì¡°ì²´
+//		&pi))                            // í”„ë¡œì„¸ìŠ¤ ì •ë³´ êµ¬ì¡°ì²´
 //	{
-//		printf("ÇÁ·Î¼¼½º »ý¼º¿¡ ½ÇÆÐÇß½À´Ï´Ù. ¿À·ù ÄÚµå: %lu\n", GetLastError());
+//		printf("í”„ë¡œì„¸ìŠ¤ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ì˜¤ë¥˜ ì½”ë“œ: %lu\n", GetLastError());
 //		LPVOID errorMessage;
 //		FormatMessage(
 //			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
@@ -448,11 +476,11 @@ int El_Floor(int EarlyFloor, int LaterFloor) {
 //			0,
 //			NULL
 //		);
-//		wprintf(L"¿¡·¯ ¸Þ½ÃÁö: %s\n", errorMessage);
+//		wprintf(L"ì—ëŸ¬ ë©”ì‹œì§€: %s\n", errorMessage);
 //		LocalFree(errorMessage);
 //	}
 //
-//	// ÇÁ·Î¼¼½º ¹× ½º·¹µå ÇÚµé ´Ý±â
+//	// í”„ë¡œì„¸ìŠ¤ ë° ìŠ¤ë ˆë“œ í•¸ë“¤ ë‹«ê¸°
 //	CloseHandle(pi.hProcess);
 //	CloseHandle(pi.hThread);
 //}
