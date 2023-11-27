@@ -17,8 +17,6 @@
 	2023.11.09 - 프로세스 생성하는 함수
 	2023.11.10 - 프로세스 생성하는 함수 주석처리(경로가 맞지않음)
 	2023.11.13 - 엘리베이터층이 현재층, 목표층이랑 같다면 멈춤
-	2023.11.14 - 엘리베이터 움직이는 함수 주석처리
-	2023.11.15 - ElevatorStatus안에 STOPPED, GOING_UP, GOING_DOWN
 오픈소스 :
 라이브러리 :
 */
@@ -52,6 +50,8 @@ int i = 0;
 
 unsigned _stdcall thread_el1(void* arg);
 
+unsigned _stdcall userIO(void* arg);
+
 void BubbleSort(int list[], int n);
 
 void MinMax(int list[], int* min, int* max, int size);
@@ -66,17 +66,6 @@ int El_Floor(int EarlyFloor, int LaterFloor);
 
 //void MoveElevator();
 
-/*
-열거형 상수
-열거형 목적 : 엘리베이터 상태를 알기 위해 필요
-개발 히스토리 :
-	2023.11.15 - ElevatorStatus안에 STOPPED, GOING_UP, GOING_DOWN
-*/
-enum ElevatorStatus {
-	STOPPED,
-	GOING_UP,
-	GOING_DOWN
-};
 
 /*
 엘리베이터에 필요한 구조체
@@ -91,7 +80,6 @@ struct Elevator
 	int targetFloor[100];
 	int button[100];
 	int people[100];
-	enum ElevatorStatus status;
 };
 
 struct Elevator elevator[100];
@@ -109,10 +97,7 @@ return 값 :
 */
 int main()
 {
-
-	_beginthreadex(NULL, 0, thread_el1, &i, 0, NULL); // 쓰레드 호출
-
-
+	_beginthreadex(NULL, 0, thread_el1, 0, 0, NULL);
 	while (1)
 	{
 
@@ -121,6 +106,7 @@ int main()
 		int a;
 		srand(time(NULL));
 		//system("cls");
+		Gotxy(0, 13);
 		printf("위(1), 아래(2), 임의사용자(3)");
 		scanf("%d", &a); //숫자로 입력
 		//printf("%d", button);
@@ -129,7 +115,7 @@ int main()
 			currentf = rand() % 100 + 1; // 현재층을 1~100층중 랜덤으로 결정
 			elevator[i].currentFloor[i] = currentf; // 전역변수로 선언된currentFloor에 대입
 			while (1) {
-				printf("가고자하는 층을 입력");
+				printf("가고자하는 층을 입력: ");
 				scanf("%d", &targetf); // 목표층을 입력받음
 				if (targetf > currentf) {
 					elevator[i].targetFloor[i] = targetf; // 전역변수로 선언된 targetFloor에 대입
@@ -138,7 +124,6 @@ int main()
 					break;
 				}
 				else {
-					printf("목표층이 현재층보다 낮습니다\n다시 입력받으세요\n");
 					/*system("cls");*/
 					continue;
 				}
@@ -148,9 +133,8 @@ int main()
 			elevator[i].button[i] = a;
 			currentf = rand() % 100 + 1; // 현재층을 1~100층중 랜덤으로 결정
 			elevator[i].currentFloor[i] = currentf; // 전역변수로 선언된currentFloor에 대입
-			printf("가고자하는 층을 입력");
 			while (1) {
-				printf("가고자하는 층을 입력");
+				printf("가고자하는 층을 입력: ");
 				scanf("%d", &targetf); // 목표층을 입력받음
 				if (targetf < currentf) {
 					elevator[i].targetFloor[i] = targetf; // 전역변수로 선언된 targetFloor에 대입
@@ -159,7 +143,6 @@ int main()
 					break;
 				}
 				else {
-					printf("목표층이 현재층보다 높습니다\n다시 입력받으세요\n");
 					/*system("cls");*/
 					continue;
 				}
@@ -185,6 +168,7 @@ int main()
 		}
 		/*CreateElevatorProcess();*/
 	}
+	
 }
 
 //void MoveElevator()
@@ -209,6 +193,7 @@ int main()
 //	}
 //}
 
+
 /*
 독립적으로 움직이는 쓰레드
 함수 목적 : 메인에서 입력받고 전역변수의 배열에 넣으면 엘리베이터 위치와 비교
@@ -222,21 +207,12 @@ int main()
 */
 unsigned _stdcall thread_el1(void* arg)
 {
-	/*const char* statusStrings[] = { "STOPPED", "GOING_UP", "GOING_DOWN" };*/
-
-	/*int elevatorIndex = *((int*)arg);*/
-
+	Gotxy(0, 0);
+	puts("elevator1---------------------------\n");
+	printf("currnet floor: %d\n", elevator1);
+	puts("doors closed  \n");
 	while (1)
 	{
-		if (elevator[i].currentFloor[i] < elevator[i].targetFloor[i]) {
-			elevator[i].status = GOING_UP;
-		}
-		else if (elevator[i].currentFloor[i] > elevator[i].targetFloor[i]) {
-			elevator[i].status = GOING_DOWN;
-		}
-		else {
-			elevator[i].status = STOPPED;
-		}
 		int i = 0;
 		/*printf("%d\n", i);*/
 		/*printf("%d %d\n", elevator[i].currentFloor[i], elevator);*/
@@ -252,31 +228,42 @@ unsigned _stdcall thread_el1(void* arg)
 			newtarget[j] = elevator[i].targetFloor[j]; // newtarget배열에 저장
 		}
 		/*printf("%d %d", el1_targetMin, el1_targetMax);*/
-
 		if (elevator[i].currentFloor[i] != 0 && elevator[i].targetFloor[i] != 0) {
 			/*elevator[i].currentFloor[i] = El_Floor(current, target)*/;
 			if (elevator1 == elevator[i].currentFloor[i]) {
-				printf("엘리베이터가 현재 사용자가 있는 %d에 도착했습니다.\n", elevator[i].currentFloor[i]);
+				Gotxy(0, 0);
+				puts("elevator1---------------------------\n");
+				printf("currnet floor: %d\n", elevator1);
+				puts("doors open  \n");
+				Sleep(3000);
 
 				// 엘리베이터 멈춤
-				Sleep(3000); // 3초 동안 멈춤
 
 				// 엘리베이터 출발 전 초기화
 				//elevator[i].currentFloor[i] = 0;
 				//elevator[i].targetFloor[i] = 0;
 			}
 			if (elevator1 == elevator[i].targetFloor[i]) {
-				printf("엘리베이터가 목표층인 %d에 도착했습니다.\n", elevator[i].targetFloor[i]);
+				Gotxy(0, 0);
+				puts("elevator1----------------------------\n");
+				printf("currnet floor: %d\n", elevator1);
+				puts("doors open  \n");
+				Sleep(3000);
 
 				// 엘리베이터 멈춤
-				Sleep(3000); // 3초 동안 멈춤
 
 				// 엘리베이터 출발 전 초기화
 				//elevator[i].currentFloor[i] = 0;
 				//elevator[i].targetFloor[i] = 0;
 			}
+			else{
+				Gotxy(0, 0);
+				puts("elevator1----------------------------\n");
+				printf("currnet floor: %d\n", elevator1);
+				puts("doors closed\n");
+			}
 			Sleep(500);
-			printf("%d\n", elevator1);
+			
 			elevator1++;
 		}
 		//if (elevator1 <= elevator[i].currentFloor[i]) {//배열에 0이 아니라면(배열에 숫자가 들어가있다는 뜻)
@@ -405,36 +392,35 @@ void Gotxy(int x, int y)
 return 값 : 바뀐 초기값
 개발 히스토리 :
 	2023.11.06 - 초기층에서 현재층으로 가고 현재층에서 목표층으로 가는 함수 구현(엘리베이터 한층당 속도는 Sleep함수를 사용해 0.5초)
-	2023.11.14 - 주석처리
 */
-//int El_Floor(int EarlyFloor, int LaterFloor) {
-//	double timePerFloor = 0.5; // 한 층 이동에 걸리는 시간 (초)
-//
-//	if (EarlyFloor == LaterFloor) {
-//		printf("엘리베이터는 이미 층에 도착했습니다.\n"); //현재층과 목표층을 비교하여 같다면 문구 출력
-//	}
-//	else if (EarlyFloor < LaterFloor) {
-//		printf("엘리베이터가 %d층에서 %d층으로 이동합니다.\n", EarlyFloor - 10, LaterFloor - 10); //현재층이 목표층보다 작다면 현재층에서 목표층으로 증가
-//		while (EarlyFloor < LaterFloor) {
-//			Sleep((int)(timePerFloor * 1000)); // Sleep 함수를 사용하여 0.5초 대기
-//			EarlyFloor++; //
-//			printf("현재 %d층\n", EarlyFloor - 10); //숫자를 하나씩 증가해주면서 층 보여줌
-//		}
-//		printf("엘리베이터가 %d에 도착했습니다.\n", LaterFloor - 10);
-//		EarlyFloor = LaterFloor;
-//	}
-//	else {
-//		printf("엘리베이터가 %d층에서 %d층으로 이동합니다.\n", EarlyFloor - 10, LaterFloor - 10); //현재층이 목표층보다 크다면 현재층에서 목표층으로 증가
-//		while (EarlyFloor > LaterFloor) {
-//			Sleep((int)(timePerFloor * 1000)); // Sleep 함수를 사용하여 대기
-//			EarlyFloor--;
-//			printf("현재 %d층\n", EarlyFloor - 10); //숫자를 하나씩 감소해주면서 층 보여줌
-//		}
-//		printf("엘리베이터가 %d에 도착했습니다.\n", LaterFloor - 10);
-//		EarlyFloor = LaterFloor;
-//	}
-//	return EarlyFloor;
-//}
+int El_Floor(int EarlyFloor, int LaterFloor) {
+	double timePerFloor = 0.5; // 한 층 이동에 걸리는 시간 (초)
+
+	if (EarlyFloor == LaterFloor) {
+		printf("엘리베이터는 이미 층에 도착했습니다.\n"); //현재층과 목표층을 비교하여 같다면 문구 출력
+	}
+	else if (EarlyFloor < LaterFloor) {
+		printf("엘리베이터가 %d층에서 %d층으로 이동합니다.\n", EarlyFloor - 10, LaterFloor - 10); //현재층이 목표층보다 작다면 현재층에서 목표층으로 증가
+		while (EarlyFloor < LaterFloor) {
+			Sleep((int)(timePerFloor * 1000)); // Sleep 함수를 사용하여 0.5초 대기
+			EarlyFloor++; //
+			printf("현재 %d층\n", EarlyFloor - 10); //숫자를 하나씩 증가해주면서 층 보여줌
+		}
+		printf("엘리베이터가 %d에 도착했습니다.\n", LaterFloor - 10);
+		EarlyFloor = LaterFloor;
+	}
+	else {
+		printf("엘리베이터가 %d층에서 %d층으로 이동합니다.\n", EarlyFloor - 10, LaterFloor - 10); //현재층이 목표층보다 크다면 현재층에서 목표층으로 증가
+		while (EarlyFloor > LaterFloor) {
+			Sleep((int)(timePerFloor * 1000)); // Sleep 함수를 사용하여 대기
+			EarlyFloor--;
+			printf("현재 %d층\n", EarlyFloor - 10); //숫자를 하나씩 감소해주면서 층 보여줌
+		}
+		printf("엘리베이터가 %d에 도착했습니다.\n", LaterFloor - 10);
+		EarlyFloor = LaterFloor;
+	}
+	return EarlyFloor;
+}
 
 /*
 프로세스 함수 생성
