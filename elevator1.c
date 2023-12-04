@@ -19,8 +19,6 @@ void Closed_Button(int n);
 int choice_elevator(int currentf);
 
 
-int totalweight = 0;
-int totalpeople = 0;
 bool Doors = false;
 bool Userio = false;
 bool start = true;
@@ -48,6 +46,8 @@ struct Elevator elevator[100] = { 0, };
 
 struct Elevator1_status
 {
+	int totalweight;
+	int totalpeople;
 	int Min;
 	int Max;
 	int elevator;
@@ -194,8 +194,8 @@ unsigned _stdcall thread_el1(void* arg)
 					if(elevator[i].elevator_num == n){
 						if (elevator[i].button == 1) {
 							if (status[n].floor == elevator[i].currentFloor) {
-								totalweight += elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
-								totalpeople += elevator[i].people;
+								status[n].totalweight += elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
+								status[n].totalpeople += elevator[i].people;
 								Doors = true;
 								DrawElevator(n);
 								Closed_Button(n);
@@ -207,8 +207,8 @@ unsigned _stdcall thread_el1(void* arg)
 									Sleep(500);
 								}
 								else {
-									totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
-									totalpeople -= elevator[i].people;
+									status[n].totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
+									status[n].totalpeople -= elevator[i].people;
 									Doors = true;
 									DrawElevator(n);
 									Sleep(3000);
@@ -256,8 +256,8 @@ unsigned _stdcall thread_el1(void* arg)
 					if(elevator[i].elevator_num == n){
 						if (elevator[i].button == 2) {
 							if (status[n].floor == elevator[i].currentFloor) {
-								totalweight += elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
-								totalpeople += elevator[i].people;
+								status[n].totalweight += elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
+								status[n].totalpeople += elevator[i].people;
 								Doors = true;
 								DrawElevator(n);
 								Closed_Button(n);
@@ -269,8 +269,8 @@ unsigned _stdcall thread_el1(void* arg)
 									Sleep(500);
 								}
 								else{
-									totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
-									totalpeople -= elevator[i].people;
+									status[n].totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
+									status[n].totalpeople -= elevator[i].people;
 									Doors = true;
 									DrawElevator(n);
 									Sleep(3000);
@@ -338,7 +338,7 @@ void Gotxy(int x, int y)
 void DrawElevator(int n)
 {
 
-	int wt = n*50;
+	int wt = n*20;
 	Gotxy(wt, 0);
 	printf("-----ELEVATOR%d-----\n",n+1);
 	Gotxy(wt, 1);
@@ -362,17 +362,29 @@ void DrawElevator(int n)
 	Gotxy(wt, 4);
 	printf("최대최소 : %d %d\n", status[n].Max, status[n].Min);
 	Gotxy(wt, 5);
-	printf("인원: %d\n", totalpeople);
+	printf("인원: %d\n", status[n].totalpeople);
 	Gotxy(wt, 6);
-	printf("무게: %d\n", totalweight);
+	printf("무게: %d\n", status[n].totalweight);
 	Gotxy(wt, 7);
 	printf("-------------------\n");
 	Gotxy(0, 16);
 	printf("                                             ");
 	Gotxy(0, 18);
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	printf("                                                                          \n");
+	Gotxy(0, 18);
 	for (int i = 0; i < 100; i++) {
 		if (elevator[i].currentFloor != 0) {
 			printf("엘리베이터 : %d ", n + 1);
+
 			printf("버튼 :%d ", elevator[i].button);
 			printf("랭크: %d ", elevator[i].rank);
 			printf("현재층 :%d ", elevator[i].currentFloor);
