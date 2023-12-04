@@ -14,7 +14,7 @@
 unsigned _stdcall thread_el1(void* arg);
 void DrawElevator();
 void Gotxy(int x, int y);
-void MinMax();
+void MinMax(int str);
 void Closed_Button();
 
 
@@ -40,7 +40,7 @@ struct Elevator
 {
 	int currentFloor;
 	int targetFloor;
-	char button;
+	int button;
 	int people;
 	int rank;
 	int cl_button;
@@ -195,7 +195,6 @@ unsigned _stdcall thread_el1(void* arg)
 							if (elevator[i].rank == 2) {
 								DrawElevator();
 								Sleep(500);
-								continue;
 							}
 							else {
 								totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
@@ -208,7 +207,7 @@ unsigned _stdcall thread_el1(void* arg)
 								elevator[i].rank = 0;
 								if (status.elevator1 == Max) {
 									status.status = 0;
-									MinMax();
+									MinMax(0);
 								}
 							}
 						}
@@ -216,7 +215,7 @@ unsigned _stdcall thread_el1(void* arg)
 					else if (elevator[i].button == 2) {
 						if (status.elevator1 == Max) {
 							status.status = 0;
-							MinMax();
+							MinMax(0);
 						}
 
 					}
@@ -229,7 +228,9 @@ unsigned _stdcall thread_el1(void* arg)
 					for (int i = 0; i < 100; i++) {
 						if (elevator[i].currentFloor != 0) {
 							status.status = 2;
-							break;
+						}
+						if (elevator[i].button == 2) {
+							elevator[i].rank = 1;
 						}
 					}
 				}
@@ -250,7 +251,6 @@ unsigned _stdcall thread_el1(void* arg)
 							if (elevator[i].rank == 2) {
 								DrawElevator();
 								Sleep(500);
-								continue;
 							}
 							else{
 								totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
@@ -263,7 +263,7 @@ unsigned _stdcall thread_el1(void* arg)
 								elevator[i].rank = 0;
 								if (status.elevator1 == Min) {
 									status.status = 0;
-									MinMax();
+									MinMax(0);
 								}
 							}
 						}
@@ -271,7 +271,7 @@ unsigned _stdcall thread_el1(void* arg)
 					else if (elevator[i].button == 1) {
 						if (status.elevator1 == Min) {
 							status.status = 0;
-							MinMax();
+							MinMax(0);
 						}
 
 					}
@@ -284,11 +284,22 @@ unsigned _stdcall thread_el1(void* arg)
 					for (int i = 0; i < 100; i++) {
 						if (elevator[i].currentFloor != 0) {
 							status.status = 1;
-							break;
+						}
+						if (elevator[i].button == 1) {
+							elevator[i].rank = 1;
 						}
 					}
 				}
 				Sleep(500);
+			}
+		}
+		else {
+			MinMax(1);
+			if (status.elevator1 < Max) {
+				status.status = 1;
+			}
+			else if (status.elevator1 > Min) {
+				status.status = 2;
 			}
 		}
 	}
@@ -342,15 +353,15 @@ void DrawElevator()
 	Gotxy(25, 14);
 }
 
-void MinMax()
+void MinMax(int str)
 {
 	Min = 100; Max = 0;
 	for (int i = 0; i < 100; i++) {
 		if (elevator[i].currentFloor != 0) {
-			if (elevator[i].targetFloor < Min) {
+			if (elevator[i].targetFloor < Min && str == 0) {
 				Min = elevator[i].targetFloor;
 			}
-			if (elevator[i].targetFloor > Max) {
+			if (elevator[i].targetFloor > Max && str == 0) {
 				Max = elevator[i].targetFloor;
 			}
 			if (elevator[i].currentFloor < Min) {
@@ -367,15 +378,17 @@ void Closed_Button()
 {
 	int elSeconds = 0;
 	while (elSeconds < 3) {
-		Gotxy(0, 14);
-		printf("3초 안에 닫힘 버튼을 누르세요...(%d초 경과)", elSeconds);
+		Gotxy(0, 15);
+		printf("3초 안에 닫힘 버튼(space bar)을 누르세요...(%d초 경과)", elSeconds+1);
 		Sleep(1000);
+		Gotxy(0, 15);
+		printf("                                                                      ");
 		elSeconds++;
 
 		// 추가: 닫힘 버튼을 입력받으면 문을 닫고 1초 후 출발
 		if (_kbhit()) {
-			int closeButton = _getch() - '0';
-			if (closeButton == 1) { // 예시로 3을 닫힘 버튼으로 설정
+			int closeButton = _getch();
+			if (closeButton == 32) { // 예시로 3을 닫힘 버튼으로 설정
 				Doors = false;
 				DrawElevator();
 				Sleep(1000); // 추가: 1초 대기
