@@ -17,11 +17,20 @@ void Gotxy(int x, int y);
 void MinMax(int str, int choice);
 void Closed_Button(int n);
 int choice_elevator(int currentf);
+void changepassword();
+void userUI1(int n);
+void userUI2(int n);
+void adminUI(int n);
 
 
 bool Doors = false;
 bool Userio = false;
 bool start = true;
+bool display = true;
+char password[20] = "seoyeon04"; // 초기 비밀번호는 seoyeon04로 지정 또한 비밀번호 최대 입력은 20자를 넘어가지 않음
+char pass[20];
+int menu = 0;
+char usertype = 'u';
 
 
 struct person
@@ -73,6 +82,7 @@ int main()
 	int currentf = 0;
 	int rank = 0;
 	int choice = 0;
+
 	status[0].Min = 100;
 	status[0].Max = 0;
 	status[1].Min = 100;
@@ -82,15 +92,51 @@ int main()
 		srand(time(NULL));
 		currentf = rand() % 50 + 1;
 		Gotxy(0, 13);
+		printf("                                                                    \n");
+		printf("                                                                    ");
+		Gotxy(0, 13);
 		printf("사용자가 있는 층 : %d층\n", currentf);
-		printf("위(1), 아래(2) >> ");
+		Gotxy(0, 14);
+		printf("위(1), 아래(2) 관리자(3)>> ");
 		scanf("%d", &button);
-		if (button == 1 || button == 2) {
+		if (button == 3) {
+			system("cls");
+			while (1)
+			{
+				display = false;
+				Gotxy(0, 0);
+				printf("비밀번호 확인 >>");
+				scanf("%s",&pass);
+				if (strcmp(password, pass) == 0) {
+					usertype = 'a';
+					Gotxy(0, 0);
+					printf("                                                         ");
+					Gotxy(0, 0);
+					printf("비밀번호 확인 완료");
+					display = true;
+					Gotxy(0, 14);
+					printf("원하는 메뉴를 입력 비밀번호 변경(1), 점검할 엘리베이터(2), 관리자 메뉴 나가기(3)");
+					scanf("%d", &menu);
+					if (menu == 1)
+					{
+						changepassword();
+					}
+					/*else if (menu == 2)
+					{
+						maintenance();
+					}*/
+					
+				}
+			}
+		}
+		else if (button == 1 || button == 2) {
 			choice = choice_elevator(currentf);
 			if (button == 1)
 			{			
 				while (1)
 				{
+					Gotxy(0, 14);
+					printf("                                                             ");
 					Gotxy(0, 14);
 					printf("가고자하는 층을 입력: ");
 					scanf("%d", &targetf);
@@ -176,7 +222,8 @@ int main()
 				}
 			}
 		}
-		system("cls");
+		/*DrawElevator(0);
+		DrawElevator(1);*/
 	}
 }
 
@@ -186,6 +233,7 @@ unsigned _stdcall thread_el1(void* arg)
 	int n = (int)arg;
 	status[n].status = 0; //멈춰있는 상태
 	status[n].floor = 1; //엘리베이터 초기층
+	DrawElevator(n);
 	while (1)
 	{
 		if(status[n].status > 0){
@@ -337,12 +385,87 @@ void Gotxy(int x, int y)
 
 void DrawElevator(int n)
 {
+	if(display){
+		Sleep(300);
+		if(usertype == 'a') {
+			adminUI(n);
+		}
+		else if (usertype == 'u') {
+			if (n == 0) {
+				userUI1(0);
+			}
+			else if (n == 1) {
+				userUI2(1);
+			}
+		}
+	}
+}
 
-	int wt = n*20;
+void userUI1(int n)
+{
+	int wt = 0;
+	/*Gotxy(wt, 0);
+	printf("                        ");*/
 	Gotxy(wt, 0);
-	printf("-----ELEVATOR%d-----\n",n+1);
+	printf("-----ELEVATOR%d-----", 1);
+	/*Gotxy(wt, 1);
+	printf("                        ");*/
+	Gotxy(wt, 1);
+	printf("Current floor: %d", status[0].floor);
+	//Gotxy(wt, 2);
+	//printf("                        ");
+	Gotxy(wt, 2);
+	if (status[0].status == 0) {
+		printf("상태 : 기다림    ");
+	}
+	else if (status[0].status == 1) {
+		printf("상태 : 올라가는중");
+	}
+	else if (status[0].status == 2) {
+		printf("상태 : 내려가는중");
+	}
+	Gotxy(25, 14);
+}
+
+void userUI2(int n)
+{
+	int wt = 30;
+	/*Gotxy(wt, 0);
+	printf("                        ");*/
+	Gotxy(wt, 0);
+	printf("-----ELEVATOR%d-----",  2);
+	/*Gotxy(wt, 1);
+	printf("                        ");*/
+	Gotxy(wt, 1);
+	printf("Current floor: %d", status[1].floor);
+	//Gotxy(wt, 2);
+	//printf("                        ");
+	Gotxy(wt, 2);
+	if (status[1].status == 0) {
+		printf("상태 : 기다림    ");
+	}
+	else if (status[1].status == 1) {
+		printf("상태 : 올라가는중");
+	}
+	else if (status[1].status == 2) {
+		printf("상태 : 내려가는중");
+	}
+	Gotxy(25, 14);
+}
+
+void adminUI(int n)
+{
+	int wt = n * 20;
+	Gotxy(wt, 0);
+	printf("                  ");
+	Gotxy(wt, 0);
+	printf("-----ELEVATOR%d-----", n + 1);
+	Gotxy(wt, 1);
+	printf("                  ");
 	Gotxy(wt, 1);
 	printf("Current floor: %d", status[n].floor);
+	Gotxy(wt, 2);
+	printf("                  ");
 	Gotxy(wt, 2);
 	if (Doors == true) {
 		printf("Doors open  ");
@@ -350,23 +473,33 @@ void DrawElevator(int n)
 	else
 		printf("Doors closed");
 	Gotxy(wt, 3);
+	printf("                  ");
+	Gotxy(wt, 3);
 	if (status[n].status == 0) {
-		printf("상태 : 기다림    \n");
+		printf("상태 : 기다림    ");
 	}
 	else if (status[n].status == 1) {
-		printf("상태 : 올라가는중\n");
+		printf("상태 : 올라가는중");
 	}
 	else if (status[n].status == 2) {
-		printf("상태 : 내려가는중\n");
+		printf("상태 : 내려가는중");
 	}
 	Gotxy(wt, 4);
-	printf("최대최소 : %d %d\n", status[n].Max, status[n].Min);
+	printf("                  ");
+	Gotxy(wt, 4);
+	printf("최대최소 : %d %d", status[n].Max, status[n].Min);
 	Gotxy(wt, 5);
-	printf("인원: %d\n", status[n].totalpeople);
+	printf("                  ");
+	Gotxy(wt, 5);
+	printf("인원: %d", status[n].totalpeople);
 	Gotxy(wt, 6);
-	printf("무게: %d\n", status[n].totalweight);
+	printf("                  ");
+	Gotxy(wt, 6);
+	printf("무게: %d", status[n].totalweight);
 	Gotxy(wt, 7);
-	printf("-------------------\n");
+	printf("                  ");
+	Gotxy(wt, 7);
+	printf("-------------------");
 	Gotxy(0, 16);
 	printf("                                             ");
 	Gotxy(0, 18);
@@ -452,4 +585,11 @@ int choice_elevator(int currentf)
 	else {
 		return 1;
 	}
+}
+
+void changepassword()
+{
+	printf("변경할 비밀번호 입력 > ");
+	scanf("%s", &pass);
+
 }
