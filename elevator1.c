@@ -25,7 +25,7 @@ void textcolor(int colorNum);
 void RemovePeople(int n);
 
 
-bool Doors = false;
+
 bool Userio = false;
 bool start = true;
 bool display = true;
@@ -59,7 +59,8 @@ struct Elevator elevator[100] = { 0, };
 struct Elevator1_status
 {
 	bool call;
-	bool full;
+	bool Doors;
+	bool insinspection;
 	int totalweight;
 	int totalpeople;
 	int Min;
@@ -69,32 +70,24 @@ struct Elevator1_status
 	int status;
 };
 
-struct Elevator1_status status[2];
+struct Elevator1_status status[6];
 
 
 int main()
 {
-	status[0].floor = 1;
-	status[1].floor = 1;
-	_beginthreadex(NULL, 0, thread_el1, 0, 0, NULL);
-	_beginthreadex(NULL, 0, thread_el1, 1, 0, NULL);
-	_beginthreadex(NULL, 0, UI, 1, 0, NULL);
-	/*DrawElevator(0);
-	DrawElevator(1);*/
-
-	int gender = 0;
-	int people = 0;
 	int button = 0;
 	int targetf = 0;
 	int currentf = 0;
 	int rank = 0;
 	int choice = 0;
-	int man = 0;
-	int woman = 0;
-	status[0].Min = 100;
-	status[0].Max = 0;
-	status[1].Min = 100;
-	status[1].Max = 0;
+	for (int i = 0; i < 6; i++)
+	{
+		status[i].floor = 1;
+		status[i].Min = 100;
+		status[i].Max = 0;
+		_beginthreadex(NULL, 0, thread_el1, i, 0, NULL);
+	}
+	_beginthreadex(NULL, 0, UI, 1, 0, NULL);
 
 	while (1)
 	{
@@ -134,16 +127,20 @@ int main()
 					}
 					else if (menu == 2)
 					{
-						printf("엘리베이터1 (1), 엘리베이터2 (2)");
+						printf("점검을 원하는 엘리베이터 번호 입력");
 						scanf("%d", &inspection);
+						if (inspection >= 1 && inspection <= 6) { // 사용자가 입력한 엘리베이터를 점검
+							/*ElevatorInspection(inspection - 1);*/ // 배열 인덱스는 0부터 시작하므로 1을 빼줍니다.
+						}
+						else {
+							printf("잘못된 엘리베이터 번호입니다.\n");
+						}
 					}
 					else if (menu == 3)
 					{
 						system("cls");
 						usertype = 'u';
-						/*DrawElevator(0);
-						DrawElevator(1);*/
-						main();
+						break;
 					}
 
 				}
@@ -151,96 +148,94 @@ int main()
 		}
 		else if (button == 1 || button == 2) {
 			choice = choice_elevator(currentf);
-			if (choice < 2) {
-				usertype = 'u';
-				if (button == 1)
+			usertype = 'u';
+			if (button == 1)
+			{
+				while (1)
 				{
-					while (1)
+					Gotxy(0, 14);
+					printf("가고자하는 층을 입력:          ");
+					Gotxy(22, 14);
+					scanf("%d", &targetf);
+					if (targetf > currentf)
 					{
-						Gotxy(0, 14);
-						printf("가고자하는 층을 입력:          ");
-						Gotxy(22, 14);
-						scanf("%d", &targetf);
-						if (targetf > currentf)
-						{
-							if (status[choice].floor < currentf) {
-								if (status[choice].status == 0) {
-									status[choice].Max = targetf;
-									status[choice].Min = currentf;
-									start = false;
-									status[choice].status = 1;
-								}
-								rank = 1;
-
+						if (status[choice].floor < currentf) {
+							if (status[choice].status == 0) {
+								status[choice].Max = targetf;
+								status[choice].Min = currentf;
+								start = false;
+								status[choice].status = 1;
 							}
-							else if (status[choice].floor >= currentf) {
-								rank = 2;
-							}
-							break;
-						}
-						else
-						{
-							continue;
-						}
-					}
-				}
-				else if (button == 2)
-				{
-					while (1)
-					{
-						Gotxy(0, 14);
-						printf("가고자하는 층을 입력:            ");
-						scanf("%d", &targetf);
+							rank = 1;
 
-						if (targetf < currentf)
-						{
-							if (status[choice].floor > currentf) {
-								if (status[choice].status == 0) {
-									status[choice].Min = targetf;
-									status[choice].Max = currentf;
-									start = false;
-									status[choice].status = 2;
-								}
-								rank = 1;
-
-							}
-							else if (status[choice].floor >= currentf) {
-								rank = 2;
-							}
-							break;
 						}
-						else
-						{
-							continue;
-						}
-					}
-				}
-
-				for (int i = 0; i < 100; i++) {
-					if (elevator[i].currentFloor == 0) {
-						srand(time(NULL));
-						elevator[i].elevator_num = choice;
-						elevator[i].button = button;
-						elevator[i].currentFloor = currentf;
-						elevator[i].targetFloor = targetf;
-						elevator[i].people = rand() % 26 + 1;
-						elevator[i].weight.man = rand() % (elevator[i].people + 1);
-						elevator[i].weight.woman = elevator[i].people - elevator[i].weight.man;
-						elevator[i].rank = rank;
-						if (targetf < status[choice].Min) {
-							status[choice].Min = targetf;
-						}
-						if (targetf > status[choice].Max) {
-							status[choice].Max = targetf;
-						}
-						if (currentf < status[choice].Min) {
-							status[choice].Min = currentf;
-						}
-						if (currentf > status[choice].Max) {
-							status[choice].Max = currentf;
+						else if (status[choice].floor >= currentf) {
+							rank = 2;
 						}
 						break;
 					}
+					else
+					{
+						continue;
+					}
+				}
+			}
+			else if (button == 2)
+			{
+				while (1)
+				{
+					Gotxy(0, 14);
+					printf("가고자하는 층을 입력:            ");
+					scanf("%d", &targetf);
+
+					if (targetf < currentf)
+					{
+						if (status[choice].floor > currentf) {
+							if (status[choice].status == 0) {
+								status[choice].Min = targetf;
+								status[choice].Max = currentf;
+								start = false;
+								status[choice].status = 2;
+							}
+							rank = 1;
+
+						}
+						else if (status[choice].floor >= currentf) {
+							rank = 2;
+						}
+						break;
+					}
+					else
+					{
+						continue;
+					}
+				}
+			}
+
+			for (int i = 0; i < 100; i++) {
+				if (elevator[i].currentFloor == 0) {
+					srand(time(NULL));
+					elevator[i].elevator_num = choice;
+					elevator[i].button = button;
+					elevator[i].currentFloor = currentf;
+					elevator[i].targetFloor = targetf;
+					elevator[i].people = rand() % 26 + 1;
+					elevator[i].weight.man = rand() % (elevator[i].people + 1);
+					elevator[i].weight.woman = elevator[i].people - elevator[i].weight.man;
+					elevator[i].rank = rank;
+					if (targetf < status[choice].Min) {
+						status[choice].Min = targetf;
+					}
+					if (targetf > status[choice].Max) {
+						status[choice].Max = targetf;
+					}
+					if (currentf < status[choice].Min) {
+						status[choice].Min = currentf;
+					}
+					if (currentf > status[choice].Max) {
+						status[choice].Max = currentf;
+					}
+					break;
 				}
 			}
 		}
@@ -251,81 +246,41 @@ int main()
 
 unsigned _stdcall thread_el1(void* arg)
 {
-	int gender = 0;
-	int people = 0;
 	int n = (int)arg;
 	status[n].status = 0; //멈춰있는 상태
 	status[n].floor = 1; //엘리베이터 초기층
 	status[n].call = false;
-	status[n].full = false;
+	status[n].Doors = false;
 	while (1)
 	{
 		if (status[n].status > 0) {
 			if (status[n].status == 1) {
 				for (int i = 0; i < 100; i++) {
-					people = elevator[i].people;
 					if (elevator[i].elevator_num == n) {
 						if (elevator[i].button == 1) {
-							if (status[n].floor == elevator[i].currentFloor && status[n].full == false) {
-								for (int i = 0; i < people; i++) {
-									if (status[n].totalweight + elevator[i].weight.man * 75 + elevator[i].weight.woman * 55 > 1450) {
-										gender = rand() % 2;
-										if (gender == 0)
-										{
-											if (elevator[i].weight.man == 0) {
-												elevator[i].weight.woman--;
-											}
-											else {
-												elevator[i].weight.man--;
-											}
-											elevator[i].people--;
-
-										}
-										else if (gender == 1)
-										{
-											if (elevator[i].weight.woman == 0) {
-												elevator[i].weight.man--;
-											}
-											else {
-												elevator[i].weight.woman--;
-											}
-											elevator[i].people--;
-										}
-										if (status[n].totalweight + elevator[i].weight.man * 75 + elevator[i].weight.woman * 55 > 1450) {
-											continue;
-										}
-										else
-											break;
-									}
-								}
+							if (status[n].floor == elevator[i].currentFloor) {
 								status[n].totalweight += elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
 								status[n].totalpeople += elevator[i].people;
-								Doors = true;
-								/*DrawElevator(0);
-								DrawElevator(1);*/
-								if(usertype == 'u')
+								status[n].Doors = true;
+								if (usertype == 'u')
 									Closed_Button(n);
 								else {
 									Sleep(3000);
 								}
-								Doors = false;
+								Sleep(3000);
+								status[n].Doors = false;
 							}
 							else if (status[n].floor == elevator[i].targetFloor) {
 								status[n].call = false;
 								if (elevator[i].rank == 2) {
-									/*DrawElevator(0);
-									DrawElevator(1);*/
 									Sleep(500);
 								}
 								else {
 									status[n].totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
 									status[n].totalpeople -= elevator[i].people;
-									status[n].full = false;
-									Doors = true;
-									/*DrawElevator(0);
-									DrawElevator(1);*/
+									status[n].Doors = true;
 									Sleep(3000);
-									Doors = false;
+									status[n].Doors = false;
 									elevator[i].currentFloor = 0;
 									elevator[i].rank = 0;
 									if (status[n].floor == status[n].Max) {
@@ -345,8 +300,6 @@ unsigned _stdcall thread_el1(void* arg)
 						}
 					}
 				}
-				/*DrawElevator(0);
-				DrawElevator(1);*/
 				if (status[n].status != 0) {
 					status[n].call = true;
 					status[n].floor++;
@@ -370,37 +323,28 @@ unsigned _stdcall thread_el1(void* arg)
 					if (elevator[i].elevator_num == n) {
 						if (elevator[i].button == 2) {
 							if (status[n].floor == elevator[i].currentFloor) {
-								if (status[n].totalweight + 55 > 1450) {
-									status[n].full = true;
-								}
 								status[n].totalweight += elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
 								status[n].totalpeople += elevator[i].people;
-								Doors = true;
-								/*DrawElevator(0);
-								DrawElevator(1);*/
+								status[n].Doors = true;
 								if (usertype == 'u')
 									Closed_Button(n);
 								else {
 									Sleep(3000);
 								}
-								Doors = false;
+								Sleep(3000);
+								status[n].Doors = false;
 							}
 							else if (status[n].floor == elevator[i].targetFloor) {
 								status[n].call = false;
 								if (elevator[i].rank == 2) {
-									/*DrawElevator(0);
-									DrawElevator(1);*/
 									Sleep(500);
 								}
 								else {
 									status[n].totalweight -= elevator[i].weight.woman * 55 + elevator[i].weight.man * 75;
 									status[n].totalpeople -= elevator[i].people;
-									status[n].full = false;
-									Doors = true;
-									/*DrawElevator(0);
-									DrawElevator(1);*/
+									status[n].Doors = true;
 									Sleep(3000);
-									Doors = false;
+									status[n].Doors = false;
 									elevator[i].currentFloor = 0;
 									elevator[i].rank = 0;
 									if (status[n].floor == status[n].Min) {
@@ -421,8 +365,6 @@ unsigned _stdcall thread_el1(void* arg)
 						}
 					}
 				}
-			/*	DrawElevator(0);
-				DrawElevator(1);*/
 				if (status[n].status != 0) {
 					status[n].call = true;
 					status[n].floor--;
@@ -454,6 +396,16 @@ unsigned _stdcall thread_el1(void* arg)
 	}
 }
 
+unsigned _stdcall UI(void* arg)
+{
+	while (1) {
+		for (int i = 0; i < 6; i++) {
+			DrawElevator(i);
+			Sleep(50);
+		}
+	}
+}
+
 void Gotxy(int x, int y)
 {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -463,21 +415,11 @@ void Gotxy(int x, int y)
 	SetConsoleCursorPosition(handle, pos);
 }
 
-unsigned _stdcall UI(void* arg)
-{
-	while (1)
-	{
-		DrawElevator(0);
-		Sleep(100);
-		DrawElevator(1);
-		Sleep(100);
-	}
-}
 void DrawElevator(int n)
 {
 	if (display) {
 		int wt = n * 20;
-		if (usertype == 'a') {
+		if (usertype == 'u') {
 			Gotxy(wt, 0);
 			printf("-----ELEVATOR%d-----\n", n + 1);
 			Gotxy(wt, 1);
@@ -503,7 +445,7 @@ void DrawElevator(int n)
 			printf("-------------------\n");
 			Gotxy(0, 15);
 		}
-		else if (usertype == 'u') {
+		else if (usertype == 'a') {
 			Gotxy(wt, 0);
 			printf("-----ELEVATOR%d-----\n", n + 1);
 			Gotxy(wt, 1);
@@ -516,7 +458,7 @@ void DrawElevator(int n)
 			Gotxy(wt, 2);
 			printf("Current floor: %d", status[n].floor);
 			Gotxy(wt, 3);
-			if (Doors == true) {
+			if (status[n].Doors == true) {
 				printf("Doors open  ");
 			}
 			else
@@ -536,11 +478,11 @@ void DrawElevator(int n)
 			Gotxy(wt, 5);
 			printf("최대최소 : %d %d\n", status[n].Max, status[n].Min);
 			Gotxy(wt, 6);
-			printf("          ");
+			printf("                  ");
 			Gotxy(wt, 6);
 			printf("인원: %d\n", status[n].totalpeople);
 			Gotxy(wt, 7);
-			printf("          ");
+			printf("                  ");
 			Gotxy(wt, 7);
 			printf("무게: %d\n", status[n].totalweight);
 			Gotxy(wt, 8);
@@ -565,8 +507,7 @@ void DrawElevator(int n)
 					printf("버튼 :%d ", elevator[i].button);
 					printf("랭크: %d ", elevator[i].rank);
 					printf("현재층 :%d ", elevator[i].currentFloor);
-					printf("목표층 :%d", elevator[i].targetFloor);
-					printf("인원 :%d\n", elevator[i].people);
+					printf("목표층 :%d\n", elevator[i].targetFloor);
 				}
 			}
 			Gotxy(0, 13);
@@ -600,10 +541,10 @@ void Closed_Button(int n)
 {
 	int elSeconds = 0;
 	while (elSeconds < 3) {
-		Gotxy(0, 7);
+		Gotxy(0, 10);
 		printf("3초 안에 닫힘 버튼(space bar)을 누르세요...(%d초 경과)", elSeconds + 1);
 		Sleep(1000);
-		Gotxy(0, 7);
+		Gotxy(0, 10);
 		printf("                                                                      ");
 		elSeconds++;
 
@@ -611,7 +552,7 @@ void Closed_Button(int n)
 		if (_kbhit()) {
 			int closeButton = _getch();
 			if (closeButton == 32) { // 예시로 space bar를 닫힘 버튼으로 설정
-				Doors = false;
+				status[n].Doors = false;
 				DrawElevator(n);
 				Sleep(1000); // 추가: 1초 대기
 				break;
@@ -622,45 +563,30 @@ void Closed_Button(int n)
 
 int choice_elevator(int currentf)
 {
-	int diff1 = 0;
-	int diff2 = 0;
-	if (status[0].full == false) {
-		if (status[0].status == 1 && status[0].floor > currentf) {
-			diff1 = abs(status[0].Max - currentf);
-		}
-		else if (status[0].status == 2 && status[0].floor < currentf) {
-			diff1 = abs(status[0].Min - currentf);
-		}
+	int diff[6];
+	int Min = INT_MAX; // 최소값을 찾기 위해 초기값을 최대값으로 설정
+	int el = 0;
+
+	for (int i = 0; i < 6; i++)
+	{
+		if (status[i].status == 0)
+			diff[i] = abs(status[i].floor - currentf); // 기다리는 엘리베이터의 거리 계산
+		else if (status[i].status == 1 && status[i].floor <= currentf)
+			diff[i] = abs(status[i].Max - currentf); // 올라가는 엘리베이터의 거리 계산
+		else if (status[i].status == 2 && status[i].floor >= currentf)
+			diff[i] = abs(status[i].Min - currentf); // 내려가는 엘리베이터의 거리 계산
 		else
-			diff1 = abs(status[0].floor - currentf);
-	}
-	if (status[1].full == false) {
-		if (status[1].status == 1 && status[1].floor > currentf) {
-			diff2 = abs(status[1].Max - currentf);
-		}
-		else if (status[0].status == 2 && status[1].floor < currentf) {
-			diff2 = abs(status[1].Min - currentf);
-		}
-		else
-			diff2 = abs(status[1].floor - currentf);
-	}
-	if (status[0].full == true && status[1].full == true) {
-		return 3;
-	}
-	else if (status[0].full == true) {
-		return 1;
-	}
-	else if (status[1].full == true) {
-		return 0;
-	}
-	else {
-		if (diff1 <= diff2) {
-			return 0;
-		}
-		else {
-			return 1;
+			diff[i] = INT_MAX; // 다른 상태의 엘리베이터는 선택되지 않도록 최대값 설정
+
+		if (diff[i] < Min)
+		{
+			Min = diff[i];
+			el = i;
 		}
 	}
+
+	return el;
+	
 }
 
 
@@ -688,16 +614,16 @@ void Check()
 		if (num > 0 || special > 0) {
 			strcpy(password, pass);
 		}
-		else{
+		else {
 			Gotxy(0, 1);
 			printf("암호 생성 조건에 일치하지 않습니다.\n");
 			return Check();
 		}
-		
+
 	}
 	else
 		return Check();
-	
+
 }
 
 void textcolor(int colorNum)
